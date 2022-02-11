@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecruitmentSystem.UI", "Rec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecruitmentSystem.Domain", "RecruitmentSystem.Domain\RecruitmentSystem.Domain.csproj", "{F2FB2995-1C19-424D-B561-47D8BAD885B4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecruitmentSystem.Infrastructure", "RecruitmentSystem.Infrastructure\RecruitmentSystem.Infrastructure.csproj", "{084EC5C3-61FE-4068-A7E8-7C516BF17A30}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{F2FB2995-1C19-424D-B561-47D8BAD885B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2FB2995-1C19-424D-B561-47D8BAD885B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2FB2995-1C19-424D-B561-47D8BAD885B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{084EC5C3-61FE-4068-A7E8-7C516BF17A30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{084EC5C3-61FE-4068-A7E8-7C516BF17A30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{084EC5C3-61FE-4068-A7E8-7C516BF17A30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{084EC5C3-61FE-4068-A7E8-7C516BF17A30}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

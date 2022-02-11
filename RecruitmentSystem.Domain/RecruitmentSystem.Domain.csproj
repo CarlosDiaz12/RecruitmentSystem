@@ -6,8 +6,6 @@
 
   <ItemGroup>
     <Folder Include="Entities\" />
-    <Folder Include="Abstract\" />
-    <Folder Include="Concrete\" />
   </ItemGroup>
 
 </Project>
