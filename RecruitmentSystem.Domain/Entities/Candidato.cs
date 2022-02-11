@@ -14,9 +14,10 @@ namespace RecruitmentSystem.Domain.Entities
         public Puesto PuestoAspira { get; set; }
         public string Departamento { get; set; }
         public double SalarioAspira { get; set; }
-        public ICollection<Competencia> PrincipalesCompetencias { get; set; }
-        public ICollection<Capacitacion> PrincipalesCapacitaciones { get; set; }
-        public int ExperienciaLaboral { get; set; }
+        public ICollection<CandidatoCompetencia> PrincipalesCompetencias { get; set; }
+        public ICollection<CandidatoCapacitacion> PrincipalesCapacitaciones { get; set; }
+        public ICollection<CandidatoIdioma> Idiomas { get; set; }
+        public ICollection<CandidatoExperienciaLaboral> ExperienciasLaborales { get; set; }
         public string RecomendadoPor { get; set; }
     }
 }

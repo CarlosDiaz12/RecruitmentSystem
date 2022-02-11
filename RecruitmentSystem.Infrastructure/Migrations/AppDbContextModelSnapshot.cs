@@ -32,9 +32,6 @@ namespace RecruitmentSystem.Infrastructure.Migrations
                     b.Property<string>("Departamento")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ExperienciaLaboral")
-                        .HasColumnType("int");
-
                     b.Property<string>("Nombre")
                         .HasColumnType("nvarchar(max)");
 
@@ -54,15 +51,72 @@ namespace RecruitmentSystem.Infrastructure.Migrations
                     b.ToTable("Candidatos");
                 });
 
+            modelBuilder.Entity("RecruitmentSystem.Domain.Entities.CandidatoCapacitacion", b =>
+                {
+                    b.Property<int>("CandidatoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CapacitacionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CandidatoId", "CapacitacionId");
+
+                    b.HasIndex("CapacitacionId");
+
+                    b.ToTable("CandidatoCapacitacion");
+                });
+
+            modelBuilder.Entity("RecruitmentSystem.Domain.Entities.CandidatoCompetencia", b =>
+                {
+                    b.Property<int>("CandidatoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CompetenciaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CandidatoId", "CompetenciaId");
+
+                    b.HasIndex("CompetenciaId");
+
+                    b.ToTable("CandidatoCompetencia");
+                });
+
+            modelBuilder.Entity("RecruitmentSystem.Domain.Entities.CandidatoExperienciaLaboral", b =>
+                {
+                    b.Property<int>("CandidatoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ExperienciaLaboralId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CandidatoId", "ExperienciaLaboralId");
+
+                    b.HasIndex("ExperienciaLaboralId");
+
+                    b.ToTable("CandidatoExperienciaLaboral");
+                });
+
+            modelBuilder.Entity("RecruitmentSystem.Domain.Entities.CandidatoIdioma", b =>
+                {
+                    b.Property<int>("CandidatoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdiomaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CandidatoId", "IdiomaId");
+
+                    b.HasIndex("IdiomaId");
+
+                    b.ToTable("CandidatoIdioma");
+                });
+
             modelBuilder.Entity("RecruitmentSystem.Domain.Entities.Capacitacion", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CandidatoId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Descripcion")
                         .HasColumnType("nvarchar(max)");
@@ -81,8 +135,6 @@ namespace RecruitmentSystem.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CandidatoId");
-
                     b.HasIndex("NivelId")
                         .IsUnique();
 
@@ -96,9 +148,6 @@ namespace RecruitmentSystem.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CandidatoId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Descripcion")
                         .HasColumnType("nvarchar(max)");
 
@@ -106,8 +155,6 @@ namespace RecruitmentSystem.Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CandidatoId");
 
                     b.ToTable("Competencias");
                 });
@@ -245,7 +292,7 @@ namespace RecruitmentSystem.Infrastructure.Migrations
                     b.Navigation("PuestoAspira");
                 });
 
-            modelBuilder.Entity("RecruitmentSystem.Domain.Entities.Capacitacion", b =>
+            modelBuilder.Entity("RecruitmentSystem.Domain.Entities.CandidatoCapacitacion", b =>
                 {
                     b.HasOne("RecruitmentSystem.Domain.Entities.Candidato", "Candidato")
                         .WithMany("PrincipalesCapacitaciones")
@@ -253,18 +300,18 @@ namespace RecruitmentSystem.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RecruitmentSystem.Domain.Entities.NivelAcademico", "Nivel")
-                        .WithOne()
-                        .HasForeignKey("RecruitmentSystem.Domain.Entities.Capacitacion", "NivelId")
+                    b.HasOne("RecruitmentSystem.Domain.Entities.Capacitacion", "Capacitacion")
+                        .WithMany("Candidatos")
+                        .HasForeignKey("CapacitacionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Candidato");
 
-                    b.Navigation("Nivel");
+                    b.Navigation("Capacitacion");
                 });
 
-            modelBuilder.Entity("RecruitmentSystem.Domain.Entities.Competencia", b =>
+            modelBuilder.Entity("RecruitmentSystem.Domain.Entities.CandidatoCompetencia", b =>
                 {
                     b.HasOne("RecruitmentSystem.Domain.Entities.Candidato", "Candidato")
                         .WithMany("PrincipalesCompetencias")
@@ -272,7 +319,64 @@ namespace RecruitmentSystem.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("RecruitmentSystem.Domain.Entities.Competencia", "Competencia")
+                        .WithMany("Candidatos")
+                        .HasForeignKey("CompetenciaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Candidato");
+
+                    b.Navigation("Competencia");
+                });
+
+            modelBuilder.Entity("RecruitmentSystem.Domain.Entities.CandidatoExperienciaLaboral", b =>
+                {
+                    b.HasOne("RecruitmentSystem.Domain.Entities.Candidato", "Candidato")
+                        .WithMany("ExperienciasLaborales")
+                        .HasForeignKey("CandidatoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RecruitmentSystem.Domain.Entities.ExperienciaLaboral", "ExperienciaLaboral")
+                        .WithMany("Candidatos")
+                        .HasForeignKey("ExperienciaLaboralId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Candidato");
+
+                    b.Navigation("ExperienciaLaboral");
+                });
+
+            modelBuilder.Entity("RecruitmentSystem.Domain.Entities.CandidatoIdioma", b =>
+                {
+                    b.HasOne("RecruitmentSystem.Domain.Entities.Candidato", "Candidato")
+                        .WithMany("Idiomas")
+                        .HasForeignKey("CandidatoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RecruitmentSystem.Domain.Entities.Idioma", "Idioma")
+                        .WithMany("Candidatos")
+                        .HasForeignKey("IdiomaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Candidato");
+
+                    b.Navigation("Idioma");
+                });
+
+            modelBuilder.Entity("RecruitmentSystem.Domain.Entities.Capacitacion", b =>
+                {
+                    b.HasOne("RecruitmentSystem.Domain.Entities.NivelAcademico", "Nivel")
+                        .WithOne()
+                        .HasForeignKey("RecruitmentSystem.Domain.Entities.Capacitacion", "NivelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Nivel");
                 });
 
             modelBuilder.Entity("RecruitmentSystem.Domain.Entities.Empleado", b =>
@@ -288,9 +392,33 @@ namespace RecruitmentSystem.Infrastructure.Migrations
 
             modelBuilder.Entity("RecruitmentSystem.Domain.Entities.Candidato", b =>
                 {
+                    b.Navigation("ExperienciasLaborales");
+
+                    b.Navigation("Idiomas");
+
                     b.Navigation("PrincipalesCapacitaciones");
 
                     b.Navigation("PrincipalesCompetencias");
+                });
+
+            modelBuilder.Entity("RecruitmentSystem.Domain.Entities.Capacitacion", b =>
+                {
+                    b.Navigation("Candidatos");
+                });
+
+            modelBuilder.Entity("RecruitmentSystem.Domain.Entities.Competencia", b =>
+                {
+                    b.Navigation("Candidatos");
+                });
+
+            modelBuilder.Entity("RecruitmentSystem.Domain.Entities.ExperienciaLaboral", b =>
+                {
+                    b.Navigation("Candidatos");
+                });
+
+            modelBuilder.Entity("RecruitmentSystem.Domain.Entities.Idioma", b =>
+                {
+                    b.Navigation("Candidatos");
                 });
 #pragma warning restore 612, 618
         }

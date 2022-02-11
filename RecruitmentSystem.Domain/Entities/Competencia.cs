@@ -11,7 +11,6 @@ namespace RecruitmentSystem.Domain.Entities
     {
         public string Descripcion { get; set; }
         public bool Estado { get; set; }
-        public int CandidatoId { get; set; }
-        public Candidato Candidato { get; set; }
+        public ICollection<CandidatoCompetencia> Candidatos { get; set; }
     }
 }

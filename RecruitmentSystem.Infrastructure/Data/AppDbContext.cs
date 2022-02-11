@@ -39,16 +39,79 @@ namespace RecruitmentSystem.Infrastructure.Data
                 .Entity<Empleado>()
                 .HasOne(m => m.Puesto)
                 .WithOne();
+            // competencias
 
             modelBuilder
-                .Entity<Candidato>()
-                .HasMany(m => m.PrincipalesCapacitaciones)
-                .WithOne(m => m.Candidato);
+                .Entity<CandidatoCompetencia>()
+                .HasKey(cc => new { cc.CandidatoId, cc.CompetenciaId });
 
             modelBuilder
-                .Entity<Candidato>()
-                .HasMany(m => m.PrincipalesCapacitaciones)
-                .WithOne(m => m.Candidato);
+                .Entity<CandidatoCompetencia>()
+                .HasOne(m => m.Candidato)
+                .WithMany(m => m.PrincipalesCompetencias)
+                .HasForeignKey(cc => cc.CandidatoId);
+
+            modelBuilder
+                .Entity<CandidatoCompetencia>()
+                .HasOne(m => m.Competencia)
+                .WithMany(m => m.Candidatos)
+                .HasForeignKey(cc => cc.CompetenciaId);
+
+            // idiomas
+
+            modelBuilder
+                .Entity<CandidatoIdioma>()
+                .HasKey(cc => new { cc.CandidatoId, cc.IdiomaId });
+
+            modelBuilder
+                .Entity<CandidatoIdioma>()
+                .HasOne(m => m.Candidato)
+                .WithMany(m => m.Idiomas)
+                .HasForeignKey(cc => cc.CandidatoId);
+
+            modelBuilder
+                .Entity<CandidatoIdioma>()
+                .HasOne(m => m.Idioma)
+                .WithMany(m => m.Candidatos)
+                .HasForeignKey(cc => cc.IdiomaId);
+
+            // capacitaciones
+
+            modelBuilder
+                .Entity<CandidatoCapacitacion>()
+                .HasKey(cc => new { cc.CandidatoId, cc.CapacitacionId });
+
+            modelBuilder
+                .Entity<CandidatoCapacitacion>()
+                .HasOne(m => m.Candidato)
+                .WithMany(m => m.PrincipalesCapacitaciones)
+                .HasForeignKey(cc => cc.CandidatoId);
+
+            modelBuilder
+                .Entity<CandidatoCapacitacion>()
+                .HasOne(m => m.Capacitacion)
+                .WithMany(m => m.Candidatos)
+                .HasForeignKey(cc => cc.CapacitacionId);
+
+            // experiencias laborales
+
+            modelBuilder
+                .Entity<CandidatoExperienciaLaboral>()
+                .HasKey(cc => new { cc.CandidatoId, cc.ExperienciaLaboralId });
+
+            modelBuilder
+                 .Entity<CandidatoExperienciaLaboral>()
+                 .HasOne(m => m.Candidato)
+                 .WithMany(m => m.ExperienciasLaborales)
+                 .HasForeignKey(cc => cc.CandidatoId);
+
+            modelBuilder
+             .Entity<CandidatoExperienciaLaboral>()
+             .HasOne(m => m.ExperienciaLaboral)
+             .WithMany(m => m.Candidatos)
+             .HasForeignKey(cc => cc.ExperienciaLaboralId);
+
+
         }
 
         public DbSet<Competencia> Competencias { get; set; }
@@ -59,6 +122,9 @@ namespace RecruitmentSystem.Infrastructure.Data
         public DbSet<ExperienciaLaboral> ExperiencasLaborales { get; set; }
         public DbSet<Empleado> Empleados { get; set; }
         public DbSet<NivelAcademico> NivelesAcademicos { get; set; }
-
+        public DbSet<CandidatoCompetencia> CandidatoCompetencia { get; set; }
+        public DbSet<CandidatoCapacitacion> CandidatoCapacitacion { get; set; }
+        public DbSet<CandidatoIdioma> CandidatoIdioma { get; set; }
+        public DbSet<CandidatoExperienciaLaboral> CandidatoExperienciaLaboral { get; set; }
     }
 }

@@ -20,7 +20,6 @@ namespace RecruitmentSystem.Domain.Entities
         [DataType(DataType.Date)]
         public DateTime FechaHasta { get; set; }
         public string Institucion { get; set; }
-        public int CandidatoId { get; set; }
-        public Candidato Candidato { get; set; }
+        public ICollection<CandidatoCapacitacion> Candidatos { get; set; }
     }
 }

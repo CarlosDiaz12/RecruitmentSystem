@@ -8,6 +8,20 @@ namespace RecruitmentSystem.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Competencias",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Estado = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Competencias", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ExperiencasLaborales",
                 columns: table => new
                 {
@@ -69,6 +83,29 @@ namespace RecruitmentSystem.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Capacitaciones",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NivelId = table.Column<int>(type: "int", nullable: false),
+                    FechaDesde = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FechaHasta = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Institucion = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Capacitaciones", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Capacitaciones_NivelesAcademicos_NivelId",
+                        column: x => x.NivelId,
+                        principalTable: "NivelesAcademicos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Candidatos",
                 columns: table => new
                 {
@@ -79,7 +116,6 @@ namespace RecruitmentSystem.Infrastructure.Migrations
                     PuestoAspiraId = table.Column<int>(type: "int", nullable: true),
                     Departamento = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SalarioAspira = table.Column<double>(type: "float", nullable: false),
-                    ExperienciaLaboral = table.Column<int>(type: "int", nullable: false),
                     RecomendadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -119,55 +155,120 @@ namespace RecruitmentSystem.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Capacitaciones",
+                name: "CandidatoCapacitacion",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NivelId = table.Column<int>(type: "int", nullable: false),
-                    FechaDesde = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    FechaHasta = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Institucion = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CandidatoId = table.Column<int>(type: "int", nullable: false)
+                    CandidatoId = table.Column<int>(type: "int", nullable: false),
+                    CapacitacionId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Capacitaciones", x => x.Id);
+                    table.PrimaryKey("PK_CandidatoCapacitacion", x => new { x.CandidatoId, x.CapacitacionId });
                     table.ForeignKey(
-                        name: "FK_Capacitaciones_Candidatos_CandidatoId",
+                        name: "FK_CandidatoCapacitacion_Candidatos_CandidatoId",
                         column: x => x.CandidatoId,
                         principalTable: "Candidatos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Capacitaciones_NivelesAcademicos_NivelId",
-                        column: x => x.NivelId,
-                        principalTable: "NivelesAcademicos",
+                        name: "FK_CandidatoCapacitacion_Capacitaciones_CapacitacionId",
+                        column: x => x.CapacitacionId,
+                        principalTable: "Capacitaciones",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Competencias",
+                name: "CandidatoCompetencia",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Estado = table.Column<bool>(type: "bit", nullable: false),
-                    CandidatoId = table.Column<int>(type: "int", nullable: false)
+                    CandidatoId = table.Column<int>(type: "int", nullable: false),
+                    CompetenciaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Competencias", x => x.Id);
+                    table.PrimaryKey("PK_CandidatoCompetencia", x => new { x.CandidatoId, x.CompetenciaId });
                     table.ForeignKey(
-                        name: "FK_Competencias_Candidatos_CandidatoId",
+                        name: "FK_CandidatoCompetencia_Candidatos_CandidatoId",
                         column: x => x.CandidatoId,
                         principalTable: "Candidatos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CandidatoCompetencia_Competencias_CompetenciaId",
+                        column: x => x.CompetenciaId,
+                        principalTable: "Competencias",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "CandidatoExperienciaLaboral",
+                columns: table => new
+                {
+                    CandidatoId = table.Column<int>(type: "int", nullable: false),
+                    ExperienciaLaboralId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CandidatoExperienciaLaboral", x => new { x.CandidatoId, x.ExperienciaLaboralId });
+                    table.ForeignKey(
+                        name: "FK_CandidatoExperienciaLaboral_Candidatos_CandidatoId",
+                        column: x => x.CandidatoId,
+                        principalTable: "Candidatos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CandidatoExperienciaLaboral_ExperiencasLaborales_ExperienciaLaboralId",
+                        column: x => x.ExperienciaLaboralId,
+                        principalTable: "ExperiencasLaborales",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CandidatoIdioma",
+                columns: table => new
+                {
+                    CandidatoId = table.Column<int>(type: "int", nullable: false),
+                    IdiomaId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CandidatoIdioma", x => new { x.CandidatoId, x.IdiomaId });
+                    table.ForeignKey(
+                        name: "FK_CandidatoIdioma_Candidatos_CandidatoId",
+                        column: x => x.CandidatoId,
+                        principalTable: "Candidatos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CandidatoIdioma_Idiomas_IdiomaId",
+                        column: x => x.IdiomaId,
+                        principalTable: "Idiomas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CandidatoCapacitacion_CapacitacionId",
+                table: "CandidatoCapacitacion",
+                column: "CapacitacionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CandidatoCompetencia_CompetenciaId",
+                table: "CandidatoCompetencia",
+                column: "CompetenciaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CandidatoExperienciaLaboral_ExperienciaLaboralId",
+                table: "CandidatoExperienciaLaboral",
+                column: "ExperienciaLaboralId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CandidatoIdioma_IdiomaId",
+                table: "CandidatoIdioma",
+                column: "IdiomaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Candidatos_PuestoAspiraId",
@@ -175,20 +276,10 @@ namespace RecruitmentSystem.Infrastructure.Migrations
                 column: "PuestoAspiraId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Capacitaciones_CandidatoId",
-                table: "Capacitaciones",
-                column: "CandidatoId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Capacitaciones_NivelId",
                 table: "Capacitaciones",
                 column: "NivelId",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Competencias_CandidatoId",
-                table: "Competencias",
-                column: "CandidatoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Empleados_PuestoId",
@@ -200,25 +291,37 @@ namespace RecruitmentSystem.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "CandidatoCapacitacion");
+
+            migrationBuilder.DropTable(
+                name: "CandidatoCompetencia");
+
+            migrationBuilder.DropTable(
+                name: "CandidatoExperienciaLaboral");
+
+            migrationBuilder.DropTable(
+                name: "CandidatoIdioma");
+
+            migrationBuilder.DropTable(
+                name: "Empleados");
+
+            migrationBuilder.DropTable(
                 name: "Capacitaciones");
 
             migrationBuilder.DropTable(
                 name: "Competencias");
 
             migrationBuilder.DropTable(
-                name: "Empleados");
+                name: "ExperiencasLaborales");
 
             migrationBuilder.DropTable(
-                name: "ExperiencasLaborales");
+                name: "Candidatos");
 
             migrationBuilder.DropTable(
                 name: "Idiomas");
 
             migrationBuilder.DropTable(
                 name: "NivelesAcademicos");
-
-            migrationBuilder.DropTable(
-                name: "Candidatos");
 
             migrationBuilder.DropTable(
                 name: "Puestos");
