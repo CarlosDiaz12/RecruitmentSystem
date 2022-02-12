@@ -22,7 +22,12 @@ namespace RecruitmentSystem.Infrastructure.Concrete.Base
         {
             try
             {
-                return _dbSet.Find(id) != null;
+                var data = _dbSet.Find(id);
+                if (data == null)
+                    return false;
+
+                _context.Entry(data).State = EntityState.Detached;
+                return true;
             }
             catch (Exception)
             {
@@ -52,7 +57,7 @@ namespace RecruitmentSystem.Infrastructure.Concrete.Base
                 var entity = GetById(Id);
                 if (entity != null)
                 {
-                    _dbSet.Remove(entity);
+                    _context.Entry(entity).State = EntityState.Deleted;
                     _context.SaveChanges();
                 }
             }
@@ -78,14 +83,8 @@ namespace RecruitmentSystem.Infrastructure.Concrete.Base
         {
             try
             {
-                // TODO: Concurrency issue
-                var data =  _dbSet.Find(Id);
-                if(data != null)
-                {
-                    _context.Entry(data).State = EntityState.Detached;
-                    return data;
-                }
-                return null;
+
+                return _dbSet.Find(Id); ;
             }
             catch (Exception)
             {
@@ -93,13 +92,12 @@ namespace RecruitmentSystem.Infrastructure.Concrete.Base
             }
         }
 
-        public T Update(T _object)
+        public void Update(T _object)
         {
             try
             {
-                var entity = _dbSet.Update(_object);
+                _dbSet.Update(_object);
                 _context.SaveChanges();
-                return entity.Entity;
             }
             catch (Exception e)
             {
