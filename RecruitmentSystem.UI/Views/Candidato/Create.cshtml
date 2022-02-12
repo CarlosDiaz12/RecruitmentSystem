@@ -11,9 +11,10 @@
 {
     @await Html.PartialAsync("ErrorAlert", (string)ViewBag.ErrorMessage);
 }
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
+<form asp-action="Create">
+    <div class="row">
+        <div class="col-md-4">
+
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Cedula" class="control-label"></label>
@@ -39,7 +40,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="SalarioAspira" class="control-label"></label>
-                <input asp-for="SalarioAspira" class="form-control" />
+                <input asp-for="SalarioAspira" class="form-control" type="number" />
                 <span asp-validation-for="SalarioAspira" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -52,66 +53,77 @@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
-        </form>
-    </div>
-    <div class="col-md-8">
-        <h5>Ultimas Experiencias Laborales</h5>
-        <br />
-        @for (int i = 0; i < 2; i++)
-        {
-    <div class="card mb-1">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        @Html.Label("ExperienciasLaborales[" + i + "].Empresa", "Empresa")
-                        @Html.TextBox("ExperienciasLaborales[" + i + "].Empresa", null, htmlAttributes: new { @class = "form-control" })
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        @Html.Label("ExperienciasLaborales[" + i + "].PuestoOcupado", "Puesto Ocupado")
-                        @Html.TextBox("ExperienciasLaborales[" + i + "].PuestoOcupado", null, htmlAttributes: new { @class = "form-control" })
-                    </div>
-                </div>
 
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="form-group">
-                        @Html.Label("ExperienciasLaborales[" + i + "].FechaDesde", "FechaDesde")
-                        @{
-                            var fechDesdeName = "ExperienciasLaborales[" + i + "].FechaDesde";
-                        }
-                        <input type="date" class="form-control" name="@fechDesdeName" />
+        </div>
+        <div class="col-md-8">
+            <h5>Ultimas Experiencias Laborales</h5>
+            <br />
+            @for (int i = 0; i < 2; i++)
+            {
+                <div class="card mb-1">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.Label("ExperienciasLaborales[" + i + "].Empresa", "Empresa")
+                                    @Html.TextBox("ExperienciasLaborales[" + i + "].Empresa", null, htmlAttributes: new { @class = "form-control" })
+                                    @{
+                                        var validationName = "ExperienciasLaborales[" + i + "].Empresa";
+                                    }
+                                    <span asp-validation-for="ExperienciasLaborales[i].Empresa" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.Label("ExperienciasLaborales[" + i + "].PuestoOcupado", "Puesto Ocupado")
+                                    @Html.TextBox("ExperienciasLaborales[" + i + "].PuestoOcupado", null, htmlAttributes: new { @class = "form-control" })
+                                    @{
+                                        var puestoValName = "ExperienciasLaborales[" + i + "].PuestoOcupado";
+                                    }
+                                    <span asp-validation-for="ExperienciasLaborales[i].PuestoOcupado" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    @Html.Label("ExperienciasLaborales[" + i + "].FechaDesde", "FechaDesde")
+                                    @{
+                                        var fechaDesdeName = "ExperienciasLaborales[" + i + "].FechaDesde";
+                                    }
+                                    <input type="date" class="form-control" name="@fechaDesdeName" id="@fechaDesdeName" />
+                                    <span asp-validation-for="ExperienciasLaborales[i].FechaDesde" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    @Html.Label("ExperienciasLaborales[" + i + "].FechaHasta", "FechaHasta")
+                                    @{
+                                        var fechaHastaName = "ExperienciasLaborales[" + i + "].FechaHasta";
+                                    }
+                                    <input type="date" class="form-control" name="@fechaHastaName" id="@fechaHastaName" />
+                                    <span asp-validation-for="ExperienciasLaborales[i].FechaHasta" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    @Html.Label("ExperienciasLaborales[" + i + "].Salario", "Salario")
+                                    @{
+                                        var salarioName = "ExperienciasLaborales[" + i + "].Salario";
+                                    }
+                                    <input type="number" class="form-control" name="@salarioName" min="0" id="@salarioName" />
+                                    <span asp-validation-for="ExperienciasLaborales[i].Salario" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        @Html.Label("ExperienciasLaborales[" + i + "].FechaHasta", "FechaHasta")
-                        @{
-                            var fechaHastaName = "ExperienciasLaborales[" + i + "].FechaHasta";
-                        }
-                        <input type="date" class="form-control" name="@fechaHastaName" />
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        @Html.Label("ExperienciasLaborales[" + i + "].Salario", "Salario")
-                        @{
-                            var salarioName = "ExperienciasLaborales[" + i + "].FechaHasta";
-                        }
-                        <input type="number" class="form-control" name="@salarioName" min="0" />
-                    </div>
-                </div>
-            </div>
+            }
+
         </div>
     </div>
-        }
-
-    </div>
-</div>
-
+</form>
 <div>
     <a asp-action="Index">Regresar</a>
 </div>
@@ -119,20 +131,20 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-<script>
-    function agregarEmpresa() {
-        let container = document.getElementById('experiencias-laborales');
-        const count = container.childElementCount;
-        container.appendChild(createFormItem(count));
-    }
+    <script>
+        function agregarEmpresa() {
+            let container = document.getElementById('experiencias-laborales');
+            const count = container.childElementCount;
+            container.appendChild(createFormItem(count));
+        }
 
-    function createFormItem(index) {
-        let div = document.createElement('div');
-        div.className = 'form-group';
-        div.innerHTML = `
-                            <label class="control-label" for="ExperienciasLaborales[${index}].Empresa">Empresa ${index + 1}</label>
-                           <input class="form-control" type="text" id="ExperienciasLaborales[${index}].Empresa" name="ExperienciasLaborales[${index}].Empresa" />`
-        return div;
-    }
-</script>
+        function createFormItem(index) {
+            let div = document.createElement('div');
+            div.className = 'form-group';
+            div.innerHTML = `
+                                <label class="control-label" for="ExperienciasLaborales[${index}].Empresa">Empresa ${index + 1}</label>
+                               <input class="form-control" type="text" id="ExperienciasLaborales[${index}].Empresa" name="ExperienciasLaborales[${index}].Empresa" />`
+            return div;
+        }
+    </script>
 }

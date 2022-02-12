@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RecruitmentSystem.Domain.Abstract;
+using RecruitmentSystem.Domain.Entities;
 using RecruitmentSystem.Domain.Entities.Helper;
 using System;
 using System.Collections.Generic;
@@ -45,11 +46,32 @@ namespace RecruitmentSystem.UI.Controllers
         {
             try
             {
-                    
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    var newCandidato = new Candidato()
+                    {
+                        Nombre = _object.Nombre,
+                        Cedula = _object.Cedula,
+                        Departamento = _object.Departamento,
+                        PuestoAspiraId = _object.PuestoAspiraId,
+                        SalarioAspira = _object.SalarioAspira,
+                        RecomendadoPor = _object.RecomendadoPor,
+                        ExperienciasLaborales = _object.ExperienciasLaborales
+                    };
+
+                    _repository.Create(newCandidato);
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ViewBag.PuestoAspiraId = new SelectList(_puestoRepository.GetAll().ToList(), "Id", "Nombre");
+                    return View();
+                }
             }
-            catch
+            catch (Exception e)
             {
+                ViewBag.ErrorMessage = e.Message;
+                ViewBag.PuestoAspiraId = new SelectList(_puestoRepository.GetAll().ToList(), "Id", "Nombre");
                 return View();
             }
         }

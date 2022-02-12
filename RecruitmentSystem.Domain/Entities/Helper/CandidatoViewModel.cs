@@ -15,10 +15,15 @@ namespace RecruitmentSystem.Domain.Entities.Helper
         [Display(Name = "Puesto Aspira")]
         public int PuestoAspiraId { get; set; }
         public string Departamento { get; set; }
+        [Display(Name = "Salario Aspira")]
         public double SalarioAspira { get; set; }
+        [ScaffoldColumn(false)]
         public virtual List<Capacitacion> PrincipalesCapacitaciones { get; set; }
+        [ScaffoldColumn(false)]
         public virtual List<Idioma> Idiomas { get; set; }
+        [ScaffoldColumn(false)]
         public virtual List<ExperienciaLaboral> ExperienciasLaborales { get; set; }
+        [Display(Name = "Recomendado Por")]
         public string RecomendadoPor { get; set; }
     }
 }

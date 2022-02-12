@@ -99,28 +99,16 @@ namespace RecruitmentSystem.Infrastructure.Data
             // experiencias laborales
 
             modelBuilder
-                .Entity<CandidatoExperienciaLaboral>()
-                .HasKey(cc => new { cc.CandidatoId, cc.ExperienciaLaboralId });
+                .Entity<Candidato>()
+                .HasMany(x => x.ExperienciasLaborales)
+                .WithOne(x => x.Candidato)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder
-                 .Entity<CandidatoExperienciaLaboral>()
-                 .HasOne(m => m.Candidato)
-                 .WithMany(m => m.ExperienciasLaborales)
-                 .HasForeignKey(cc => cc.CandidatoId);
-
-            modelBuilder
-             .Entity<CandidatoExperienciaLaboral>()
-             .HasOne(m => m.ExperienciaLaboral)
-             .WithMany(m => m.Candidatos)
-             .HasForeignKey(cc => cc.ExperienciaLaboralId);
-
-            /*
-             *  TODO: APPLY THIS TO A MIGRATION
             modelBuilder
                 .Entity<Candidato>()
                 .HasIndex(x => x.Cedula)
                 .IsUnique();
-            */
+
             // query filters
             //modelBuilder
             //    .Entity<Capacitacion>()
@@ -138,6 +126,5 @@ namespace RecruitmentSystem.Infrastructure.Data
         public DbSet<CandidatoCompetencia> CandidatoCompetencia { get; set; }
         public DbSet<CandidatoCapacitacion> CandidatoCapacitacion { get; set; }
         public DbSet<CandidatoIdioma> CandidatoIdioma { get; set; }
-        public DbSet<CandidatoExperienciaLaboral> CandidatoExperienciaLaboral { get; set; }
     }
 }
