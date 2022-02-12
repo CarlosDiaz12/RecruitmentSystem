@@ -66,7 +66,7 @@ namespace RecruitmentSystem.Infrastructure.Concrete.Base
         {
             try
             {
-                return _dbSet.AsNoTracking();
+                return _dbSet.AsQueryable();
             }
             catch (Exception)
             {

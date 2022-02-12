@@ -17,7 +17,10 @@ namespace RecruitmentSystem.Infrastructure.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // SETUP CONNECTION STRING
-            optionsBuilder.UseSqlServer("Server=(local);Database=RHSystemDB;trusted_connection=true");
+            optionsBuilder
+                .UseLazyLoadingProxies()
+                .UseSqlServer("Server=(local);Database=RHSystemDB;trusted_connection=true");
+            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -111,7 +114,10 @@ namespace RecruitmentSystem.Infrastructure.Data
              .WithMany(m => m.Candidatos)
              .HasForeignKey(cc => cc.ExperienciaLaboralId);
 
-
+            // query filters
+            //modelBuilder
+            //    .Entity<Capacitacion>()
+            //    .Navigation(x => x.Nivel);
         }
 
         public DbSet<Competencia> Competencias { get; set; }
