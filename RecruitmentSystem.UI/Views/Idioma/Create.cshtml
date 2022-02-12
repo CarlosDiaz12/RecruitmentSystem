@@ -1,11 +1,11 @@
-﻿@model RecruitmentSystem.Domain.Entities.Competencia
+﻿@model RecruitmentSystem.Domain.Entities.Idioma
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Gestion de Idiomas";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Editar Competencia</h1>
+<h1>Crear Idioma</h1>
 <hr />
 @if (ViewBag.ErrorMessage != null)
 {
@@ -13,13 +13,12 @@
 }
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input asp-for="Id" hidden/>
             <div class="form-group">
-                <label asp-for="Descripcion" class="control-label"></label>
-                <input asp-for="Descripcion" class="form-control" />
-                <span asp-validation-for="Descripcion" class="text-danger"></span>
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
@@ -27,7 +26,7 @@
                 </label>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
