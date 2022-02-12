@@ -1,0 +1,10 @@
+﻿@model bool?
+@{
+if(ViewData.ModelMetadata.IsNullableValueType) {
+         @:No especificado
+    } else if(Model ?? false){
+        @:Activo
+    } else {
+        @:Inactivo
+    }
+}

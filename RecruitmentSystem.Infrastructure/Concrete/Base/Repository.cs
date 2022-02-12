@@ -78,7 +78,14 @@ namespace RecruitmentSystem.Infrastructure.Concrete.Base
         {
             try
             {
-                return _dbSet.Find(Id);
+                // TODO: Concurrency issue
+                var data =  _dbSet.Find(Id);
+                if(data != null)
+                {
+                    _context.Entry(data).State = EntityState.Detached;
+                    return data;
+                }
+                return null;
             }
             catch (Exception)
             {
