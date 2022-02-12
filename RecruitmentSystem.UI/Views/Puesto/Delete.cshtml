@@ -1,0 +1,54 @@
+﻿@model RecruitmentSystem.Domain.Entities.Puesto
+
+@{
+    ViewData["Title"] = "Eliminar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Puesto</h3>
+<h4>Esta seguro que sea eliminar esto?</h4>
+<div>
+    <hr />
+    @if (ViewBag.ErrorMessage != null)
+    {
+        @await Html.PartialAsync("ErrorAlert", (string)ViewBag.ErrorMessage);
+    }
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NivelRiesgo)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NivelRiesgo)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NivelMinimoSalario)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NivelMinimoSalario)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NivelMaximoSalario)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NivelMaximoSalario)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Estado)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Estado, "DisplayStatus")
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        @Html.HiddenFor(x => x.Id)
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Regresar</a>
+    </form>
+</div>

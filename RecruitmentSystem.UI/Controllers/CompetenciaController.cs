@@ -84,7 +84,7 @@ namespace RecruitmentSystem.UI.Controllers
             {
                 if(ModelState.IsValid)
                 {
-                    if (_repository.CheckIfExists(id))
+                    if (!_repository.CheckIfExists(id))
                         throw new Exception("Registro no encontrado");
                     _repository.Update(_object);
                 } else
@@ -125,7 +125,7 @@ namespace RecruitmentSystem.UI.Controllers
         {
             try
             {
-                if (_repository.CheckIfExists(id))
+                if (!_repository.CheckIfExists(id))
                     throw new Exception("Registro no encontrado");
                 _repository.Delete(id);
                 return RedirectToAction(nameof(Index));

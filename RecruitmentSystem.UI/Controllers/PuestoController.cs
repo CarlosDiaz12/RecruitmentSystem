@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using RecruitmentSystem.Domain.Abstract;
+using RecruitmentSystem.Domain.Entities;
+using RecruitmentSystem.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,20 +33,32 @@ namespace RecruitmentSystem.UI.Controllers
         // GET: PuestoController/Create
         public ActionResult Create()
         {
-            return View();
+            ViewBag.NivelRiesgo = new SelectList(Enum.GetValues(typeof(NivelRiesgo)));
+            return View(new Puesto() { Estado = true});
         }
 
         // POST: PuestoController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Puesto _object)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _repository.Create(_object);
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ViewBag.NivelRiesgo = new SelectList(Enum.GetValues(typeof(NivelRiesgo)));
+                    return View();
+                }
             }
-            catch
+            catch (Exception e)
             {
+                ViewBag.ErrorMessage = e.Message;
+                ViewBag.NivelRiesgo = new SelectList(Enum.GetValues(typeof(NivelRiesgo)));
                 return View();
             }
         }
@@ -51,20 +66,46 @@ namespace RecruitmentSystem.UI.Controllers
         // GET: PuestoController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            try
+            {
+                var data = _repository.GetById(id);
+                if (data == null)
+                    throw new Exception("Registro no encontrado");
+                ViewBag.NivelRiesgo = new SelectList(Enum.GetValues(typeof(NivelRiesgo)));
+                return View(data);
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+                ViewBag.NivelRiesgo = new SelectList(Enum.GetValues(typeof(NivelRiesgo)));
+                return View();
+            }
         }
 
         // POST: PuestoController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Puesto _object)
         {
             try
             {
+                if (ModelState.IsValid)
+                {
+                    if (!_repository.CheckIfExists(id))
+                        throw new Exception("Registro no encontrado");
+                    _repository.Update(_object);
+                }
+                else
+                {
+                    ViewBag.NivelRiesgo = new SelectList(Enum.GetValues(typeof(NivelRiesgo)));
+                    return View();
+                }
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception e)
             {
+                ViewBag.ErrorMessage = e.Message;
+                ViewBag.NivelRiesgo = new SelectList(Enum.GetValues(typeof(NivelRiesgo)));
                 return View();
             }
         }
@@ -72,7 +113,19 @@ namespace RecruitmentSystem.UI.Controllers
         // GET: PuestoController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            try
+            {
+                var data = _repository.GetById(id);
+                if (data == null)
+                    throw new Exception("Registro no encontrado");
+
+                return View(data);
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+                return View();
+            }
         }
 
         // POST: PuestoController/Delete/5
@@ -82,10 +135,14 @@ namespace RecruitmentSystem.UI.Controllers
         {
             try
             {
+                if (!_repository.CheckIfExists(id))
+                    throw new Exception("Registro no encontrado");
+                _repository.Delete(id);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception e)
             {
+                ViewBag.ErrorMessage = e.Message;
                 return View();
             }
         }
