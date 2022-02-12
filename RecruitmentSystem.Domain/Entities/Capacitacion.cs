@@ -12,7 +12,7 @@ namespace RecruitmentSystem.Domain.Entities
     public class Capacitacion: BaseEntity
     {
         public string Descripcion { get; set; }
-
+        [Display(Name = "Nivel")]
         public int NivelId { get; set; }
         public virtual NivelAcademico Nivel { get; set; }
         [DataType(DataType.Date)]

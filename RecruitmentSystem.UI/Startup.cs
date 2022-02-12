@@ -24,7 +24,7 @@ namespace RecruitmentSystem.UI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddDbContext<AppDbContext>();
+            services.AddDbContext<AppDbContext>(ServiceLifetime.Transient);
 
             // Setup Dependency injection
             services.AddDependencies();
