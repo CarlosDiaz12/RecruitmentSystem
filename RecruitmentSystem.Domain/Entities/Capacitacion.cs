@@ -14,12 +14,12 @@ namespace RecruitmentSystem.Domain.Entities
         public string Descripcion { get; set; }
 
         public int NivelId { get; set; }
-        public NivelAcademico Nivel { get; set; }
+        public virtual NivelAcademico Nivel { get; set; }
         [DataType(DataType.Date)]
         public DateTime FechaDesde { get; set; }
         [DataType(DataType.Date)]
         public DateTime FechaHasta { get; set; }
         public string Institucion { get; set; }
-        public ICollection<CandidatoCapacitacion> Candidatos { get; set; }
+        public virtual ICollection<CandidatoCapacitacion> Candidatos { get; set; }
     }
 }

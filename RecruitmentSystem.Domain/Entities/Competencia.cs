@@ -11,6 +11,6 @@ namespace RecruitmentSystem.Domain.Entities
     {
         public string Descripcion { get; set; }
         public bool Estado { get; set; }
-        public ICollection<CandidatoCompetencia> Candidatos { get; set; }
+        public virtual ICollection<CandidatoCompetencia> Candidatos { get; set; }
     }
 }

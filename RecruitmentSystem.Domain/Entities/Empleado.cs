@@ -16,7 +16,7 @@ namespace RecruitmentSystem.Domain.Entities
         public DateTime FechaIngreso { get; set; }
         public string Departamento { get; set; }
         public int PuestoId { get; set; }
-        public Puesto Puesto { get; set; }
+        public virtual Puesto Puesto { get; set; }
         public double SalarioMensual { get; set; }
         public bool Estado { get; set; }
     }

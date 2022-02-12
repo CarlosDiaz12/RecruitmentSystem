@@ -9,8 +9,8 @@ namespace RecruitmentSystem.Domain.Entities
     public class CandidatoCapacitacion
     {
         public int CandidatoId { get; set; }
-        public Candidato Candidato { get; set; }
+        public virtual Candidato Candidato { get; set; }
         public int CapacitacionId { get; set; }
-        public Capacitacion Capacitacion { get; set; }
+        public virtual Capacitacion Capacitacion { get; set; }
     }
 }

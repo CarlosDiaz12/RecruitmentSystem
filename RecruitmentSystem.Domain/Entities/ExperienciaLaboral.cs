@@ -17,6 +17,6 @@ namespace RecruitmentSystem.Domain.Entities
         [DataType(DataType.Date)]
         public DateTime FechaHasta { get; set; }
         public double Salario { get; set; }
-        public ICollection<CandidatoExperienciaLaboral> Candidatos { get; set; }
+        public virtual ICollection<CandidatoExperienciaLaboral> Candidatos { get; set; }
     }
 }
