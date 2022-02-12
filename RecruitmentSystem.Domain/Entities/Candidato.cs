@@ -1,6 +1,7 @@
 ﻿using RecruitmentSystem.Domain.Entities.Base;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,13 +12,17 @@ namespace RecruitmentSystem.Domain.Entities
     {
         public string Cedula { get; set; }
         public string Nombre { get; set; }
+        [Display(Name = "Puesto Aspira")]
+        public int PuestoAspiraId { get; set; }
         public virtual Puesto PuestoAspira { get; set; }
         public string Departamento { get; set; }
+        [Display(Name = "Salario Aspira")]
         public double SalarioAspira { get; set; }
         public virtual ICollection<CandidatoCompetencia> PrincipalesCompetencias { get; set; }
         public virtual ICollection<CandidatoCapacitacion> PrincipalesCapacitaciones { get; set; }
         public virtual ICollection<CandidatoIdioma> Idiomas { get; set; }
         public virtual ICollection<CandidatoExperienciaLaboral> ExperienciasLaborales { get; set; }
+        [Display(Name = "Recomendado Por")]
         public string RecomendadoPor { get; set; }
     }
 }

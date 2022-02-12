@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using RecruitmentSystem.Domain.Abstract;
 using RecruitmentSystem.Domain.Entities.Helper;
 using System;
@@ -12,9 +13,11 @@ namespace RecruitmentSystem.UI.Controllers
     public class CandidatoController : Controller
     {
         private readonly ICandidatoRepository _repository;
-        public CandidatoController(ICandidatoRepository repository)
+        private readonly IPuestoRepository _puestoRepository;
+        public CandidatoController(ICandidatoRepository repository, IPuestoRepository puestoRepository)
         {
             _repository = repository;
+            _puestoRepository = puestoRepository;
         }
         // GET: CandidatoController
         public ActionResult Index()
@@ -31,6 +34,7 @@ namespace RecruitmentSystem.UI.Controllers
         // GET: CandidatoController/Create
         public ActionResult Create()
         {
+            ViewBag.PuestoAspiraId = new SelectList(_puestoRepository.GetAll().ToList(), "Id", "Nombre");
             return View();
         }
 
@@ -41,7 +45,7 @@ namespace RecruitmentSystem.UI.Controllers
         {
             try
             {
-
+                    
                 return RedirectToAction(nameof(Index));
             }
             catch
