@@ -9,7 +9,7 @@ namespace RecruitmentSystem.Domain.Abstract.Base
     public interface IRepository<T> where T: class
     {
         public T Create(T _object);
-        public T Update(T _object);
+        public void Update(T _object);
         public IQueryable<T> GetAll();
         public void Delete(int Id);
         public T GetById(int Id);

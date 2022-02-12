@@ -114,6 +114,13 @@ namespace RecruitmentSystem.Infrastructure.Data
              .WithMany(m => m.Candidatos)
              .HasForeignKey(cc => cc.ExperienciaLaboralId);
 
+            /*
+             *  TODO: APPLY THIS TO A MIGRATION
+            modelBuilder
+                .Entity<Candidato>()
+                .HasIndex(x => x.Cedula)
+                .IsUnique();
+            */
             // query filters
             //modelBuilder
             //    .Entity<Capacitacion>()
