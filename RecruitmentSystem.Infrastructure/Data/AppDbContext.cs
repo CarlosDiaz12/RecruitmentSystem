@@ -45,20 +45,10 @@ namespace RecruitmentSystem.Infrastructure.Data
             // competencias
 
             modelBuilder
-                .Entity<CandidatoCompetencia>()
-                .HasKey(cc => new { cc.CandidatoId, cc.CompetenciaId });
-
-            modelBuilder
-                .Entity<CandidatoCompetencia>()
-                .HasOne(m => m.Candidato)
-                .WithMany(m => m.PrincipalesCompetencias)
-                .HasForeignKey(cc => cc.CandidatoId);
-
-            modelBuilder
-                .Entity<CandidatoCompetencia>()
-                .HasOne(m => m.Competencia)
-                .WithMany(m => m.Candidatos)
-                .HasForeignKey(cc => cc.CompetenciaId);
+                .Entity<Candidato>()
+                .HasMany(x => x.PrincipalesCompetencias)
+                .WithOne(x => x.Candidato)
+                .OnDelete(DeleteBehavior.Cascade);
 
             // idiomas
 
@@ -123,7 +113,6 @@ namespace RecruitmentSystem.Infrastructure.Data
         public DbSet<ExperienciaLaboral> ExperiencasLaborales { get; set; }
         public DbSet<Empleado> Empleados { get; set; }
         public DbSet<NivelAcademico> NivelesAcademicos { get; set; }
-        public DbSet<CandidatoCompetencia> CandidatoCompetencia { get; set; }
         public DbSet<CandidatoCapacitacion> CandidatoCapacitacion { get; set; }
         public DbSet<CandidatoIdioma> CandidatoIdioma { get; set; }
     }

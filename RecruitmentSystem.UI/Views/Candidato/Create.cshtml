@@ -48,12 +48,6 @@
                 <input asp-for="RecomendadoPor" class="form-control" />
                 <span asp-validation-for="RecomendadoPor" class="text-danger"></span>
             </div>
-
-
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-
         </div>
         <div class="col-md-8">
             <h5>Ultimas Experiencias Laborales</h5>
@@ -121,6 +115,35 @@
                 </div>
             }
 
+        </div>
+    </div>
+    <hr />
+    <h5>Principales Competencias</h5>
+    <div class="row mt-1">
+        <br />
+        @for (int i = 0; i < 3; i++)
+        {
+            <div class="col-md-4">
+                <div class="card mb-1">
+                    <div class="card-body">
+
+                        <div class="form-group">
+                            @Html.Label("Competencias[" + i + "].Descripcion", "Descripcion")
+                            @Html.TextBox("Competencias[" + i + "].Descripcion", null, htmlAttributes: new { @class = "form-control" })
+                            @{
+                                var validationName = "Comptenecias[" + i + "].Descripcion";
+                            }
+                            <span asp-validation-for="Competencias[i].Descripcion" class="text-danger"></span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="mt-2">
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-primary" />
         </div>
     </div>
 </form>

@@ -10,7 +10,7 @@ namespace RecruitmentSystem.Domain.Entities
     public class Competencia: BaseEntity
     {
         public string Descripcion { get; set; }
-        public bool Estado { get; set; }
-        public virtual ICollection<CandidatoCompetencia> Candidatos { get; set; }
+        public bool Estado { get; set; } = true;
+        public virtual Candidato Candidato { get; set; }
     }
 }

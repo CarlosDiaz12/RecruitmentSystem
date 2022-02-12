@@ -56,7 +56,8 @@ namespace RecruitmentSystem.UI.Controllers
                         PuestoAspiraId = _object.PuestoAspiraId,
                         SalarioAspira = _object.SalarioAspira,
                         RecomendadoPor = _object.RecomendadoPor,
-                        ExperienciasLaborales = _object.ExperienciasLaborales
+                        ExperienciasLaborales = _object.ExperienciasLaborales,
+                        PrincipalesCompetencias = _object.Competencias,
                     };
 
                     _repository.Create(newCandidato);
