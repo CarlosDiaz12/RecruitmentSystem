@@ -1,0 +1,59 @@
+﻿@model IEnumerable<RecruitmentSystem.Domain.Entities.Candidato>
+
+@{
+    ViewData["Title"] = "Gestion de Candidatos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Gestion de Candidatos</h2>
+<p>
+    <a asp-action="Create" class="btn btn-success btn-sm">Agregar</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Cedula)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Departamento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SalarioAspira)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RecomendadoPor)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cedula)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Departamento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SalarioAspira)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RecomendadoPor)
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Eliminar", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

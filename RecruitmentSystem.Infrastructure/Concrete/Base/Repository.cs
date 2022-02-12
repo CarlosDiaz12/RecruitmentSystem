@@ -18,7 +18,7 @@ namespace RecruitmentSystem.Infrastructure.Concrete.Base
             _context = dbContext;
             _dbSet = _context.Set<T>();
         }
-        public bool CheckIfExists(int id)
+        public virtual bool CheckIfExists(int id)
         {
             try
             {
@@ -36,7 +36,7 @@ namespace RecruitmentSystem.Infrastructure.Concrete.Base
             }
         }
 
-        public T Create(T _object)
+        public virtual T Create(T _object)
         {
             try
             {
@@ -50,7 +50,7 @@ namespace RecruitmentSystem.Infrastructure.Concrete.Base
             }
         }
 
-        public void Delete(int Id)
+        public virtual void Delete(int Id)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace RecruitmentSystem.Infrastructure.Concrete.Base
             }
         }
 
-        public IQueryable<T> GetAll()
+        public virtual IQueryable<T> GetAll()
         {
             try
             {
@@ -79,7 +79,7 @@ namespace RecruitmentSystem.Infrastructure.Concrete.Base
             }
         }
 
-        public T GetById(int Id)
+        public virtual T GetById(int Id)
         {
             try
             {
@@ -92,7 +92,7 @@ namespace RecruitmentSystem.Infrastructure.Concrete.Base
             }
         }
 
-        public void Update(T _object)
+        public virtual void Update(T _object)
         {
             try
             {

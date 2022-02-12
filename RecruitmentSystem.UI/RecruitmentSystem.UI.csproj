@@ -12,10 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\RecruitmentSystem.Domain\RecruitmentSystem.Domain.csproj" />
     <ProjectReference Include="..\RecruitmentSystem.Infrastructure\RecruitmentSystem.Infrastructure.csproj" />
   </ItemGroup>

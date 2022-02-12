@@ -1,5 +1,6 @@
 ﻿using RecruitmentSystem.Domain.Abstract.Base;
 using RecruitmentSystem.Domain.Entities;
+using RecruitmentSystem.Domain.Entities.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,6 @@ namespace RecruitmentSystem.Domain.Abstract
 {
     public interface ICandidatoRepository: IRepository<Candidato>
     {
+        public void CrearCandidato(CandidatoViewModel _object);
     }
 }

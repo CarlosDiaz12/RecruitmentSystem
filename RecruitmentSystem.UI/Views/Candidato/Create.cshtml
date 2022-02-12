@@ -1,0 +1,86 @@
+﻿@model RecruitmentSystem.Domain.Entities.Helper.CandidatoViewModel
+
+@{
+    ViewData["Title"] = "Gestion De Candidatos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Crear Candidato</h2>
+<hr />
+@if (ViewBag.ErrorMessage != null)
+{
+    @await Html.PartialAsync("ErrorAlert", (string)ViewBag.ErrorMessage);
+}
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Cedula" class="control-label"></label>
+                <input asp-for="Cedula" class="form-control" />
+                <span asp-validation-for="Cedula" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Departamento" class="control-label"></label>
+                <input asp-for="Departamento" class="form-control" />
+                <span asp-validation-for="Departamento" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SalarioAspira" class="control-label"></label>
+                <input asp-for="SalarioAspira" class="form-control" />
+                <span asp-validation-for="SalarioAspira" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RecomendadoPor" class="control-label"></label>
+                <input asp-for="RecomendadoPor" class="form-control" />
+                <span asp-validation-for="RecomendadoPor" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <button type="button" id="btn-agregar" class="btn btn-info btn-sm" onclick="agregarEmpresa()">Agregar</button>
+        </div>
+        <div id="experiencias-laborales" class="form-group">
+            <div class="form-group">
+                <label class="control-label" for="ExperienciasLaborales[0].Empresa">Empresa 1</label>
+                <input class="form-control" type="text" id="ExperienciasLaborales[0].Empresa" name="ExperienciasLaborales[0].Empresa" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Regresar</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+<script>
+    function agregarEmpresa() {
+        let container = document.getElementById('experiencias-laborales');
+        const count = container.childElementCount;
+        container.appendChild(createFormItem(count));
+    }
+
+    function createFormItem(index) {
+        let div = document.createElement('div');
+        div.className = 'form-group';
+        div.innerHTML = `
+                            <label class="control-label" for="ExperienciasLaborales[${index}].Empresa">Empresa ${index + 1}</label>
+                           <input class="form-control" type="text" id="ExperienciasLaborales[${index}].Empresa" name="ExperienciasLaborales[${index}].Empresa" />`
+        return div;
+    }
+</script>
+}
