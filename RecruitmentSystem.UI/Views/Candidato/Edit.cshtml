@@ -1,7 +1,7 @@
 ﻿@model RecruitmentSystem.Domain.Entities.Helper.CandidatoViewModel
 
 @{
-    ViewData["Title"] = "Gestion De Candidatos";
+    ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -9,16 +9,17 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 }
 
-<h2>Crear Candidato</h2>
+<h1>Editar Candidato</h1>
 <hr />
 @if (ViewBag.ErrorMessage != null)
 {
     @await Html.PartialAsync("ErrorAlert", (string)ViewBag.ErrorMessage);
 }
-<form asp-action="Create">
+<form asp-action="Edit">
     <div class="row">
         @* INFORMACIONES GENERALES START *@
         <div class="col-md-4">
+            <input asp-for="Id" hidden />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Cedula" class="control-label"></label>
@@ -44,7 +45,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="SalarioAspira" class="control-label"></label>
-                <input asp-for="SalarioAspira" class="form-control" type="number" />
+                <input asp-for="SalarioAspira" class="form-control" />
                 <span asp-validation-for="SalarioAspira" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -65,10 +66,11 @@
         <div class="col-md-8">
             <h5>Ultimas Experiencias Laborales</h5>
             <br />
-            @for (int i = 0; i < 2; i++)
+            @for (int i = 0; i < Model.ExperienciasLaborales.Count; i++)
             {
                 <div class="card mb-2">
                     <div class="card-body">
+                        <input asp-for="ExperienciasLaborales[i].Id" hidden />
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -120,35 +122,35 @@
     <h5>Principales Competencias</h5>
     <div class="row mt-1">
         <br />
-        @for (int i = 0; i < 3; i++)
+        @for (int i = 0; i < Model.Competencias.Count; i++)
         {
             <div class="col-md-4">
                 <div class="card mb-1">
                     <div class="card-body">
-
+                        <input asp-for="Competencias[i].Id" hidden />
                         <div class="form-group">
                             <label asp-for="Competencias[i].Descripcion" class="control-label"></label>
                             <input class="form-control" asp-for="Competencias[i].Descripcion" />
                             <span asp-validation-for="Competencias[i].Descripcion" class="text-danger"></span>
                             <span asp-validation-for="Competencias[i].Descripcion" class="text-danger"></span>
                         </div>
-
                     </div>
                 </div>
             </div>
         }
     </div>
     @* COMPETENCIAS END *@
-<hr />
+    <hr />
     @* CAPACITACIONES START *@
     <h5>Principales Capacitaciones</h5>
     <div class="row mt-1">
         <br />
-        @for (int i = 0; i < 2; i++)
+        @for (int i = 0; i < Model.Capacitaciones.Count; i++)
         {
             <div class="col-md-6">
                 <div class="card mb-1">
                     <div class="card-body">
+                        <input asp-for="Capacitaciones[i].Id" hidden />
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">

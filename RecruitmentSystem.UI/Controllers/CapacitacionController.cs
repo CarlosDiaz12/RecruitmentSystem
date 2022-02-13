@@ -66,6 +66,7 @@ namespace RecruitmentSystem.UI.Controllers
             }
             catch (Exception e)
             {
+                ViewBag.ErrorMessage = e.Message;
                 ViewBag.NivelId = new SelectList(_nivelAcademicoRepository.GetAll().ToList(), "Id", "Descripcion");
                 ViewBag.CandidatoId = new SelectList(_candidatoRepository.GetAll().ToList(), "Id", "Nombre");
                 return View();

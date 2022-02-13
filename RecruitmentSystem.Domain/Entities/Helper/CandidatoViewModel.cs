@@ -9,6 +9,7 @@ namespace RecruitmentSystem.Domain.Entities.Helper
 {
     public class CandidatoViewModel
     {
+        public int Id { get; set; }
         public string Cedula { get; set; }
         public string Nombre { get; set; }
         [Display(Name = "Puesto Aspira")]
