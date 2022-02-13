@@ -15,10 +15,15 @@ namespace RecruitmentSystem.UI.Controllers
     {
         private readonly ICapacitacionRepository _repository;
         private readonly INivelAcademicoRepository _nivelAcademicoRepository;
-        public CapacitacionController(ICapacitacionRepository repository, INivelAcademicoRepository nivelAcademicoRepository)
+        private readonly ICandidatoRepository _candidatoRepository;
+        public CapacitacionController(
+            ICapacitacionRepository repository, 
+            INivelAcademicoRepository nivelAcademicoRepository, 
+            ICandidatoRepository candidatoRepository)
         {
             _repository = repository;
             _nivelAcademicoRepository = nivelAcademicoRepository;
+            _candidatoRepository = candidatoRepository;
         }
         // GET: CapacitacionController
         public ActionResult Index()
@@ -35,8 +40,8 @@ namespace RecruitmentSystem.UI.Controllers
         // GET: CapacitacionController/Create
         public ActionResult Create()
         {
-            var data = _nivelAcademicoRepository.GetAll().ToList();
-            ViewBag.NivelId = new SelectList(data, "Id", "Descripcion");
+            ViewBag.NivelId = new SelectList(_nivelAcademicoRepository.GetAll().ToList(), "Id", "Descripcion");
+            ViewBag.CandidatoId = new SelectList(_candidatoRepository.GetAll().ToList(), "Id", "Nombre");
             return View();
         }
 
@@ -54,16 +59,15 @@ namespace RecruitmentSystem.UI.Controllers
                 }
                 else
                 {
-                    var data = _nivelAcademicoRepository.GetAll().ToList();
-                    ViewBag.NivelId = new SelectList(data, "Id", "Descripcion");
+                    ViewBag.NivelId = new SelectList(_nivelAcademicoRepository.GetAll().ToList(), "Id", "Descripcion");
+                    ViewBag.CandidatoId = new SelectList(_candidatoRepository.GetAll().ToList(), "Id", "Nombre");
                     return View();
                 }
             }
             catch (Exception e)
             {
-                ViewBag.ErrorMessage = e.Message;
-                var data = _nivelAcademicoRepository.GetAll().ToList();
-                ViewBag.NivelId = new SelectList(data, "Id", "Descripcion");
+                ViewBag.NivelId = new SelectList(_nivelAcademicoRepository.GetAll().ToList(), "Id", "Descripcion");
+                ViewBag.CandidatoId = new SelectList(_candidatoRepository.GetAll().ToList(), "Id", "Nombre");
                 return View();
             }
         }
@@ -77,15 +81,15 @@ namespace RecruitmentSystem.UI.Controllers
                 if (data == null)
                     throw new Exception("Registro no encontrado");
 
-                var ddlData = _nivelAcademicoRepository.GetAll().ToList();
-                ViewBag.NivelId = new SelectList(ddlData, "Id", "Descripcion");
+                ViewBag.NivelId = new SelectList(_nivelAcademicoRepository.GetAll().ToList(), "Id", "Descripcion");
+                ViewBag.CandidatoId = new SelectList(_candidatoRepository.GetAll().ToList(), "Id", "Nombre");
                 return View(data);
             }
             catch (Exception e)
             {
                 ViewBag.ErrorMessage = e.Message;
-                var ddlData = _nivelAcademicoRepository.GetAll().ToList();
-                ViewBag.NivelId = new SelectList(ddlData, "Id", "Descripcion");
+                ViewBag.NivelId = new SelectList(_nivelAcademicoRepository.GetAll().ToList(), "Id", "Descripcion");
+                ViewBag.CandidatoId = new SelectList(_candidatoRepository.GetAll().ToList(), "Id", "Nombre");
                 return View();
             }
         }
@@ -105,8 +109,8 @@ namespace RecruitmentSystem.UI.Controllers
                 }
                 else
                 {
-                    var ddlData = _nivelAcademicoRepository.GetAll().ToList();
-                    ViewBag.NivelId = new SelectList(ddlData, "Id", "Descripcion");
+                    ViewBag.NivelId = new SelectList(_nivelAcademicoRepository.GetAll().ToList(), "Id", "Descripcion");
+                    ViewBag.CandidatoId = new SelectList(_candidatoRepository.GetAll().ToList(), "Id", "Nombre");
                     return View();
                 }
                 return RedirectToAction(nameof(Index));
@@ -114,8 +118,8 @@ namespace RecruitmentSystem.UI.Controllers
             catch (Exception e)
             {
                 ViewBag.ErrorMessage = e.Message;
-                var ddlData = _nivelAcademicoRepository.GetAll().ToList();
-                ViewBag.NivelId = new SelectList(ddlData, "Id", "Descripcion");
+                ViewBag.NivelId = new SelectList(_nivelAcademicoRepository.GetAll().ToList(), "Id", "Descripcion");
+                ViewBag.CandidatoId = new SelectList(_candidatoRepository.GetAll().ToList(), "Id", "Nombre");
                 return View();
             }
         }

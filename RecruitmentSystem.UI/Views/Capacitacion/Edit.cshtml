@@ -5,6 +5,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@section Styles {
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+}
+
 <h1>Editar Capacitacion</h1>
 <hr />
 @if (ViewBag.ErrorMessage != null)
@@ -15,7 +19,7 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input asp-for="Id" hidden/>
+            <input asp-for="Id" hidden />
             <div class="form-group">
                 <label asp-for="Descripcion" class="control-label"></label>
                 <input asp-for="Descripcion" class="form-control" />
@@ -44,6 +48,13 @@
                 <span asp-validation-for="Institucion" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="CandidatoId" class="control-label"></label>
+                <select asp-for="CandidatoId" class="form-control" id="select-candidato" asp-items="@ViewBag.CandidatoId">
+                    <option selected disabled>Seleccione</option>
+                </select>
+                <span asp-validation-for="CandidatoId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
@@ -56,4 +67,12 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#select-candidato').select2({
+                placeholder: "Selecciona",
+            });
+        });
+    </script>
 }

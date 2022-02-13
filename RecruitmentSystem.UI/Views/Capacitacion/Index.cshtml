@@ -27,6 +27,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Institucion)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Candidato)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -49,8 +52,11 @@
                 @Html.DisplayFor(modelItem => item.Institucion)
             </td>
             <td>
-                @Html.ActionLink("Editar", "Edit", new { id=item.Id  }) |
-                @Html.ActionLink("Eliminar", "Delete", new { id=item.Id })
+                @Html.DisplayFor(modelItem => item.Candidato.Nombre)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Eliminar", "Delete", new { id = item.Id })
             </td>
         </tr>
 }
