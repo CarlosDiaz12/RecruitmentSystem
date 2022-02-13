@@ -33,11 +33,12 @@ namespace RecruitmentSystem.Infrastructure.Data
                 v => v.ToString(),
                 v => (NivelRiesgo)Enum.Parse(typeof(NivelRiesgo), v));
 
+            // capacitacion / nivel
+
             modelBuilder
                 .Entity<Capacitacion>()
-                .HasOne(m => m.Nivel)
-                .WithOne();
-
+                .HasOne(m => m.Nivel);
+           
             modelBuilder
                 .Entity<Empleado>()
                 .HasOne(m => m.Puesto)

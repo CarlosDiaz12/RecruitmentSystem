@@ -114,7 +114,9 @@ namespace RecruitmentSystem.UI.Controllers
                     RecomendadoPor = _object.RecomendadoPor,
                     ExperienciasLaborales = _object.ExperienciasLaborales.ToList(),
                     Competencias = _object.PrincipalesCompetencias.ToList(),
-                    Idiomas = _object.Idiomas.Select(m => m.IdiomaId.ToString()).ToArray()
+                    Idiomas = _object.Idiomas.Select(m => m.IdiomaId.ToString()).ToArray(),
+                    Capacitaciones = _object.PrincipalesCapacitaciones.ToList()
+                    
                 };
 
                 ViewBag.PuestoAspiraId = new SelectList(_puestoRepository.GetAll().ToList(), "Id", "Nombre");
