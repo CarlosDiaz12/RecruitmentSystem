@@ -5,6 +5,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@section Styles {
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+}
+
 <h2>Crear Candidato</h2>
 <hr />
 @if (ViewBag.ErrorMessage != null)
@@ -13,8 +17,8 @@
 }
 <form asp-action="Create">
     <div class="row">
+        @* INFORMACIONES GENERALES START *@
         <div class="col-md-4">
-
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Cedula" class="control-label"></label>
@@ -31,7 +35,7 @@
                 <select asp-for="PuestoAspiraId" class="form-control" asp-items="@ViewBag.PuestoAspiraId">
                     <option selected>Selecciona</option>
                 </select>
-                <span asp-validation-for="Nombre" class="text-danger"></span>
+                <span asp-validation-for="PuestoAspiraId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Departamento" class="control-label"></label>
@@ -48,7 +52,17 @@
                 <input asp-for="RecomendadoPor" class="form-control" />
                 <span asp-validation-for="RecomendadoPor" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="Idiomas" class="control-label"></label>
+                <select asp-for="Idiomas" class="form-control" id="select-idiomas" name="idiomas" multiple="multiple" asp-items="ViewBag.Idiomas">
+                    <option disabled>Selecciona</option>
+                </select>
+                <span asp-validation-for="Idiomas" class="text-danger"></span>
+            </div>
         </div>
+        @* INFORMACIONES GENERALES END *@
+
+        @* EXPERIENCAS LABORALES START *@
         <div class="col-md-8">
             <h5>Ultimas Experiencias Laborales</h5>
             <br />
@@ -59,21 +73,15 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.Label("ExperienciasLaborales[" + i + "].Empresa", "Empresa")
-                                    @Html.TextBox("ExperienciasLaborales[" + i + "].Empresa", null, htmlAttributes: new { @class = "form-control" })
-                                    @{
-                                        var validationName = "ExperienciasLaborales[" + i + "].Empresa";
-                                    }
+                                    <label asp-for="ExperienciasLaborales[i].Empresa" class="control-label"></label>
+                                    <input asp-for="ExperienciasLaborales[i].Empresa" class="form-control" />
                                     <span asp-validation-for="ExperienciasLaborales[i].Empresa" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.Label("ExperienciasLaborales[" + i + "].PuestoOcupado", "Puesto Ocupado")
-                                    @Html.TextBox("ExperienciasLaborales[" + i + "].PuestoOcupado", null, htmlAttributes: new { @class = "form-control" })
-                                    @{
-                                        var puestoValName = "ExperienciasLaborales[" + i + "].PuestoOcupado";
-                                    }
+                                    <label asp-for="ExperienciasLaborales[i].PuestoOcupado" class="control-label"></label>
+                                    <input asp-for="ExperienciasLaborales[i].PuestoOcupado" class="form-control" />
                                     <span asp-validation-for="ExperienciasLaborales[i].PuestoOcupado" class="text-danger"></span>
                                 </div>
                             </div>
@@ -82,31 +90,22 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    @Html.Label("ExperienciasLaborales[" + i + "].FechaDesde", "FechaDesde")
-                                    @{
-                                        var fechaDesdeName = "ExperienciasLaborales[" + i + "].FechaDesde";
-                                    }
-                                    <input type="date" class="form-control" name="@fechaDesdeName" id="@fechaDesdeName" />
+                                    <label asp-for="ExperienciasLaborales[i].FechaDesde" class="control-label"></label>
+                                    <input type="date" class="form-control" asp-for="ExperienciasLaborales[i].FechaDesde"/>
                                     <span asp-validation-for="ExperienciasLaborales[i].FechaDesde" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    @Html.Label("ExperienciasLaborales[" + i + "].FechaHasta", "FechaHasta")
-                                    @{
-                                        var fechaHastaName = "ExperienciasLaborales[" + i + "].FechaHasta";
-                                    }
-                                    <input type="date" class="form-control" name="@fechaHastaName" id="@fechaHastaName" />
+                                    <label asp-for="ExperienciasLaborales[i].FechaHasta" class="control-label"></label>
+                                    <input type="date" class="form-control" asp-for="ExperienciasLaborales[i].FechaHasta" />
                                     <span asp-validation-for="ExperienciasLaborales[i].FechaHasta" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    @Html.Label("ExperienciasLaborales[" + i + "].Salario", "Salario")
-                                    @{
-                                        var salarioName = "ExperienciasLaborales[" + i + "].Salario";
-                                    }
-                                    <input type="number" class="form-control" name="@salarioName" min="0" id="@salarioName" />
+                                    <label asp-for="ExperienciasLaborales[i].Salario" class="control-label"></label>
+                                    <input type="number" class="form-control" min="0" asp-for="ExperienciasLaborales[i].Salario"/>
                                     <span asp-validation-for="ExperienciasLaborales[i].Salario" class="text-danger"></span>
                                 </div>
                             </div>
@@ -116,8 +115,10 @@
             }
 
         </div>
+        @* EXPERIENCAS LABORALES END *@
     </div>
     <hr />
+    @* COMPETENCIAS START *@
     <h5>Principales Competencias</h5>
     <div class="row mt-1">
         <br />
@@ -141,6 +142,7 @@
             </div>
         }
     </div>
+    @* COMPETENCIAS END *@
     <div class="mt-2">
         <div class="form-group">
             <input type="submit" value="Create" class="btn btn-primary" />
@@ -153,21 +155,10 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
-        function agregarEmpresa() {
-            let container = document.getElementById('experiencias-laborales');
-            const count = container.childElementCount;
-            container.appendChild(createFormItem(count));
-        }
-
-        function createFormItem(index) {
-            let div = document.createElement('div');
-            div.className = 'form-group';
-            div.innerHTML = `
-                                <label class="control-label" for="ExperienciasLaborales[${index}].Empresa">Empresa ${index + 1}</label>
-                               <input class="form-control" type="text" id="ExperienciasLaborales[${index}].Empresa" name="ExperienciasLaborales[${index}].Empresa" />`
-            return div;
-        }
+        $(document).ready(function () {
+            $('#select-idiomas').select2();
+        });
     </script>
 }

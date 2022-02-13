@@ -15,10 +15,12 @@ namespace RecruitmentSystem.UI.Controllers
     {
         private readonly ICandidatoRepository _repository;
         private readonly IPuestoRepository _puestoRepository;
-        public CandidatoController(ICandidatoRepository repository, IPuestoRepository puestoRepository)
+        private readonly IIdiomaRepository _idiomaRepository;
+        public CandidatoController(ICandidatoRepository repository, IPuestoRepository puestoRepository, IIdiomaRepository idiomaRepository)
         {
             _repository = repository;
             _puestoRepository = puestoRepository;
+            _idiomaRepository = idiomaRepository;
         }
         // GET: CandidatoController
         public ActionResult Index()
@@ -36,6 +38,7 @@ namespace RecruitmentSystem.UI.Controllers
         public ActionResult Create()
         {
             ViewBag.PuestoAspiraId = new SelectList(_puestoRepository.GetAll().ToList(), "Id", "Nombre");
+            ViewBag.Idiomas = new SelectList(_idiomaRepository.GetAll().ToList(), "Id", "Nombre");
             return View();
         }
 
@@ -60,12 +63,20 @@ namespace RecruitmentSystem.UI.Controllers
                         PrincipalesCompetencias = _object.Competencias,
                     };
 
+                    foreach (var item in _object.Idiomas)
+                    {
+                        newCandidato.Idiomas.Add(new CandidatoIdioma()
+                        {
+                            IdiomaId = int.Parse(item)
+                        });
+                    }
                     _repository.Create(newCandidato);
                     return RedirectToAction(nameof(Index));
                 }
                 else
                 {
                     ViewBag.PuestoAspiraId = new SelectList(_puestoRepository.GetAll().ToList(), "Id", "Nombre");
+                    ViewBag.Idiomas = new SelectList(_idiomaRepository.GetAll().ToList(), "Id", "Nombre");
                     return View();
                 }
             }
@@ -73,6 +84,7 @@ namespace RecruitmentSystem.UI.Controllers
             {
                 ViewBag.ErrorMessage = e.Message;
                 ViewBag.PuestoAspiraId = new SelectList(_puestoRepository.GetAll().ToList(), "Id", "Nombre");
+                ViewBag.Idiomas = new SelectList(_idiomaRepository.GetAll().ToList(), "Id", "Nombre");
                 return View();
             }
         }

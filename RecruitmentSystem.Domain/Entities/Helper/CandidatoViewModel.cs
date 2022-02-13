@@ -20,9 +20,9 @@ namespace RecruitmentSystem.Domain.Entities.Helper
         [ScaffoldColumn(false)]
         public virtual List<Capacitacion> PrincipalesCapacitaciones { get; set; }
         [ScaffoldColumn(false)]
-        public virtual List<Idioma> Idiomas { get; set; }
+        public virtual string[] Idiomas { get; set; }
         [ScaffoldColumn(false)]
-        public virtual List<ExperienciaLaboral> ExperienciasLaborales { get; set; }
+        public virtual List<ExperienciaLaboral> ExperienciasLaborales { get; set; } = new List<ExperienciaLaboral>();
         [ScaffoldColumn(false)]
         public virtual List<Competencia> Competencias { get; set; }
         [Display(Name = "Recomendado Por")]
