@@ -16,11 +16,17 @@ namespace RecruitmentSystem.UI.Controllers
         private readonly ICandidatoRepository _repository;
         private readonly IPuestoRepository _puestoRepository;
         private readonly IIdiomaRepository _idiomaRepository;
-        public CandidatoController(ICandidatoRepository repository, IPuestoRepository puestoRepository, IIdiomaRepository idiomaRepository)
+        private readonly INivelAcademicoRepository _nivelAcademicoRepository;
+        public CandidatoController(
+            ICandidatoRepository repository, 
+            IPuestoRepository puestoRepository, 
+            IIdiomaRepository idiomaRepository, 
+            INivelAcademicoRepository nivelAcademicoRepository)
         {
             _repository = repository;
             _puestoRepository = puestoRepository;
             _idiomaRepository = idiomaRepository;
+            _nivelAcademicoRepository = nivelAcademicoRepository;
         }
         // GET: CandidatoController
         public ActionResult Index()
@@ -39,6 +45,7 @@ namespace RecruitmentSystem.UI.Controllers
         {
             ViewBag.PuestoAspiraId = new SelectList(_puestoRepository.GetAll().ToList(), "Id", "Nombre");
             ViewBag.Idiomas = new SelectList(_idiomaRepository.GetAll().ToList(), "Id", "Nombre");
+            ViewBag.NivelesCapacitacion = new SelectList(_nivelAcademicoRepository.GetAll().ToList(), "Id", "Descripcion");
             return View();
         }
 
@@ -77,6 +84,7 @@ namespace RecruitmentSystem.UI.Controllers
                 {
                     ViewBag.PuestoAspiraId = new SelectList(_puestoRepository.GetAll().ToList(), "Id", "Nombre");
                     ViewBag.Idiomas = new SelectList(_idiomaRepository.GetAll().ToList(), "Id", "Nombre");
+                    ViewBag.NivelesCapacitacion = new SelectList(_nivelAcademicoRepository.GetAll().ToList(), "Id", "Descripcion");
                     return View();
                 }
             }
@@ -85,6 +93,7 @@ namespace RecruitmentSystem.UI.Controllers
                 ViewBag.ErrorMessage = e.Message;
                 ViewBag.PuestoAspiraId = new SelectList(_puestoRepository.GetAll().ToList(), "Id", "Nombre");
                 ViewBag.Idiomas = new SelectList(_idiomaRepository.GetAll().ToList(), "Id", "Nombre");
+                ViewBag.NivelesCapacitacion = new SelectList(_nivelAcademicoRepository.GetAll().ToList(), "Id", "Descripcion");
                 return View();
             }
         }

@@ -55,7 +55,6 @@
             <div class="form-group">
                 <label asp-for="Idiomas" class="control-label"></label>
                 <select asp-for="Idiomas" class="form-control" id="select-idiomas" name="idiomas" multiple="multiple" asp-items="ViewBag.Idiomas">
-                    <option disabled>Selecciona</option>
                 </select>
                 <span asp-validation-for="Idiomas" class="text-danger"></span>
             </div>
@@ -68,7 +67,7 @@
             <br />
             @for (int i = 0; i < 2; i++)
             {
-                <div class="card mb-1">
+                <div class="card mb-2">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6">
@@ -91,7 +90,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label asp-for="ExperienciasLaborales[i].FechaDesde" class="control-label"></label>
-                                    <input type="date" class="form-control" asp-for="ExperienciasLaborales[i].FechaDesde"/>
+                                    <input type="date" class="form-control" asp-for="ExperienciasLaborales[i].FechaDesde" />
                                     <span asp-validation-for="ExperienciasLaborales[i].FechaDesde" class="text-danger"></span>
                                 </div>
                             </div>
@@ -105,7 +104,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label asp-for="ExperienciasLaborales[i].Salario" class="control-label"></label>
-                                    <input type="number" class="form-control" min="0" asp-for="ExperienciasLaborales[i].Salario"/>
+                                    <input type="number" class="form-control" min="0" asp-for="ExperienciasLaborales[i].Salario" />
                                     <span asp-validation-for="ExperienciasLaborales[i].Salario" class="text-danger"></span>
                                 </div>
                             </div>
@@ -129,11 +128,9 @@
                     <div class="card-body">
 
                         <div class="form-group">
-                            @Html.Label("Competencias[" + i + "].Descripcion", "Descripcion")
-                            @Html.TextBox("Competencias[" + i + "].Descripcion", null, htmlAttributes: new { @class = "form-control" })
-                            @{
-                                var validationName = "Comptenecias[" + i + "].Descripcion";
-                            }
+                            <label asp-for="Competencias[i].Descripcion" class="control-label"></label>
+                            <input class="form-control" asp-for="Competencias[i].Descripcion" />
+                            <span asp-validation-for="Competencias[i].Descripcion" class="text-danger"></span>
                             <span asp-validation-for="Competencias[i].Descripcion" class="text-danger"></span>
                         </div>
 
@@ -143,9 +140,62 @@
         }
     </div>
     @* COMPETENCIAS END *@
-    <div class="mt-2">
-        <div class="form-group">
-            <input type="submit" value="Create" class="btn btn-primary" />
+<hr />
+    @* CAPACITACIONES START *@
+    <h5>Principales Capacitaciones</h5>
+    <div class="row mt-1">
+        <br />
+        @for (int i = 0; i < 2; i++)
+        {
+            <div class="col-md-6">
+                <div class="card mb-1">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Capacitaciones[i].Descripcion" class="control-label"></label>
+                                    <input class="form-control" asp-for="Capacitaciones[i].Descripcion" />
+                                    <span asp-validation-for="Capacitaciones[i].Descripcion" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Capacitaciones[i].NivelId" class="control-label"></label>
+                                    <select asp-for="Capacitaciones[i].NivelId" class="form-control" asp-items="@ViewBag.NivelesCapacitacion">
+                                        <option selected disabled>Selecciona</option>
+                                    </select>
+                                    <span asp-validation-for="Capacitaciones[i].NivelId" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label asp-for="Capacitaciones[i].FechaDesde" class="control-label"></label>
+                                <input asp-for="Capacitaciones[i].FechaDesde" class="form-control" />
+                                <span asp-validation-for="Capacitaciones[i].FechaDesde" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label asp-for="Capacitaciones[i].FechaHasta" class="control-label"></label>
+                                <input asp-for="Capacitaciones[i].FechaHasta" class="form-control" />
+                                <span asp-validation-for="Capacitaciones[i].FechaHasta" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label asp-for="Capacitaciones[i].Institucion" class="control-label"></label>
+                                <input asp-for="Capacitaciones[i].Institucion" class="form-control" />
+                                <span asp-validation-for="Capacitaciones[i].Institucion" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    @* CAPACITACIONES END *@
+    <div class="mt-2 mb-2">
+        <div class="form-group col-md-4 p-0">
+            <input type="submit" value="Guardar" class="btn btn-primary btn-block" />
         </div>
     </div>
 </form>
@@ -158,7 +208,10 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         $(document).ready(function () {
-            $('#select-idiomas').select2();
+            $('#select-idiomas').select2({
+                placeholder: "Selecciona",
+                allowClear: true
+            });
         });
     </script>
 }

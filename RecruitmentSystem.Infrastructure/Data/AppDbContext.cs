@@ -70,21 +70,12 @@ namespace RecruitmentSystem.Infrastructure.Data
 
             // capacitaciones
 
+            // TODO: REPARA ESTA RELACION, DEBE SER UNO A MUCHOS; CANDIDATO => CAPACITACIONES.
             modelBuilder
-                .Entity<CandidatoCapacitacion>()
-                .HasKey(cc => new { cc.CandidatoId, cc.CapacitacionId });
-
-            modelBuilder
-                .Entity<CandidatoCapacitacion>()
-                .HasOne(m => m.Candidato)
-                .WithMany(m => m.PrincipalesCapacitaciones)
-                .HasForeignKey(cc => cc.CandidatoId);
-
-            modelBuilder
-                .Entity<CandidatoCapacitacion>()
-                .HasOne(m => m.Capacitacion)
-                .WithMany(m => m.Candidatos)
-                .HasForeignKey(cc => cc.CapacitacionId);
+                .Entity<Candidato>()
+                .HasMany(c => c.PrincipalesCapacitaciones)
+                .WithOne(c => c.Candidato)
+                .OnDelete(DeleteBehavior.Cascade);
 
             // experiencias laborales
 
@@ -113,7 +104,6 @@ namespace RecruitmentSystem.Infrastructure.Data
         public DbSet<ExperienciaLaboral> ExperiencasLaborales { get; set; }
         public DbSet<Empleado> Empleados { get; set; }
         public DbSet<NivelAcademico> NivelesAcademicos { get; set; }
-        public DbSet<CandidatoCapacitacion> CandidatoCapacitacion { get; set; }
         public DbSet<CandidatoIdioma> CandidatoIdioma { get; set; }
     }
 }

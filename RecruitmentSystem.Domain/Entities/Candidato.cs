@@ -19,7 +19,7 @@ namespace RecruitmentSystem.Domain.Entities
         [Display(Name = "Salario Aspira")]
         public double SalarioAspira { get; set; }
         public virtual ICollection<Competencia> PrincipalesCompetencias { get; set; }
-        public virtual ICollection<CandidatoCapacitacion> PrincipalesCapacitaciones { get; set; }
+        public virtual ICollection<Capacitacion> PrincipalesCapacitaciones { get; set; }
         public virtual ICollection<CandidatoIdioma> Idiomas { get; set; } = new List<CandidatoIdioma>();
         public virtual ICollection<ExperienciaLaboral> ExperienciasLaborales { get; set; } = new List<ExperienciaLaboral>();
         [Display(Name = "Recomendado Por")]

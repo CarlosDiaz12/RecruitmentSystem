@@ -9,7 +9,6 @@ namespace RecruitmentSystem.Domain.Entities.Helper
 {
     public class CandidatoViewModel
     {
-        public int[] CompetenciasIds { get; set; }
         public string Cedula { get; set; }
         public string Nombre { get; set; }
         [Display(Name = "Puesto Aspira")]
@@ -18,7 +17,7 @@ namespace RecruitmentSystem.Domain.Entities.Helper
         [Display(Name = "Salario Aspira")]
         public double SalarioAspira { get; set; }
         [ScaffoldColumn(false)]
-        public virtual List<Capacitacion> PrincipalesCapacitaciones { get; set; }
+        public virtual List<Capacitacion> Capacitaciones { get; set; } = new List<Capacitacion>();
         [ScaffoldColumn(false)]
         public virtual string[] Idiomas { get; set; }
         [ScaffoldColumn(false)]
