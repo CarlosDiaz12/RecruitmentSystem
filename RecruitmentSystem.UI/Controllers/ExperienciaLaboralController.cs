@@ -67,20 +67,47 @@ namespace RecruitmentSystem.UI.Controllers
         // GET: ExperienciaLaboralController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            try
+            {
+                var data = _repository.GetById(id);
+                if (data == null)
+                    throw new Exception("Registro no encontrado");
+
+                ViewBag.CandidatoId = new SelectList(_candidatoRepository.GetAll().ToList(), "Id", "Nombre");
+                return View(data);
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+                ViewBag.CandidatoId = new SelectList(_candidatoRepository.GetAll().ToList(), "Id", "Nombre");
+                return View();
+            }
         }
 
         // POST: ExperienciaLaboralController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, ExperienciaLaboral _object)
         {
             try
             {
+                if (ModelState.IsValid)
+                {
+                    if (!_repository.CheckIfExists(id))
+                        throw new Exception("Registro no encontrado");
+                    _repository.Update(_object);
+                }
+                else
+                {
+                    ViewBag.CandidatoId = new SelectList(_candidatoRepository.GetAll().ToList(), "Id", "Nombre");
+                    return View();
+                }
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception e)
             {
+                ViewBag.ErrorMessage = e.Message;
+                ViewBag.CandidatoId = new SelectList(_candidatoRepository.GetAll().ToList(), "Id", "Nombre");
                 return View();
             }
         }
