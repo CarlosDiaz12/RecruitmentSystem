@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RecruitmentSystem.Domain.Abstract.Base;
+using RecruitmentSystem.Domain.Entities.Helper;
 using RecruitmentSystem.Infrastructure.Data;
+using RecruitmentSystem.Infrastructure.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,11 +69,14 @@ namespace RecruitmentSystem.Infrastructure.Concrete.Base
             }
         }
 
-        public virtual IQueryable<T> GetAll()
+        public virtual IQueryable<T> GetAll(IList<FilterModel> filters = null)
         {
             try
             {
-                return _dbSet.AsQueryable();
+                if (filters == null) return _dbSet.AsQueryable();
+                var deleg = ExpressionBuilderUtil.GetExpression<T>(filters).Compile();
+                var filteredCollection = _dbSet.AsNoTracking().Where(deleg).AsQueryable();
+                return filteredCollection;
             }
             catch (Exception)
             {

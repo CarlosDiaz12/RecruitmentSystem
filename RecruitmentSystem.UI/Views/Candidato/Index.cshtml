@@ -1,36 +1,63 @@
-﻿@model IEnumerable<RecruitmentSystem.Domain.Entities.Candidato>
+﻿@model RecruitmentSystem.Domain.Entities.Helper.CandidatoFilterViewModel
 
 @{
     ViewData["Title"] = "Gestion de Candidatos";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+@section Styles{
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+}
+
 <h2>Gestion de Candidatos</h2>
 <p>
     <a asp-action="Create" class="btn btn-success btn-sm">Agregar</a>
 </p>
+
+<form asp-action="Index" method="get">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Competencias" class="control-label">Competencias</label>
+                <select asp-for="Competencias" id="select-competencias" class="form-control" asp-items="@ViewBag.Competencias" multiple="multiple">
+                    <option disabled>Selecciona</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4 d-flex align-items-end">
+            <div class="form-group">
+                <input type="submit" value="Filtrar" class="btn btn-primary btn-sm" />
+            </div>
+        </div>
+    </div>
+</form>
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Cedula)
+                Cedula
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Nombre)
+                Nombre
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Departamento)
+                Departamento
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SalarioAspira)
+                Puesto
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.RecomendadoPor)
+                Salario Aspira
+            </th>
+            <th>
+                Recomendado Por
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Candidatos)
         {
             <tr>
                 <td>
@@ -43,6 +70,9 @@
                     @Html.DisplayFor(modelItem => item.Departamento)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.PuestoAspira.Nombre) <span>Aspira</span>
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.SalarioAspira)
                 </td>
                 <td>
@@ -50,10 +80,23 @@
                 </td>
                 <td>
                     @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Detalle", "Details", new { id=item.Id }) |
+                    @Html.ActionLink("Detalle", "Details", new { id = item.Id }) |
                     @Html.ActionLink("Eliminar", "Delete", new { id = item.Id })
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+@section Scripts {
+    <script type="text/javascript" src="http://davidstutz.github.io/bootstrap-multiselect/dist/js/bootstrap-multiselect.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#select-competencias').select2({
+                placeholder: "Selecciona",
+                allowClear: true
+            });
+        });
+    </script>
+}

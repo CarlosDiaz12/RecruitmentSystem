@@ -17,23 +17,42 @@ namespace RecruitmentSystem.UI.Controllers
         private readonly IPuestoRepository _puestoRepository;
         private readonly IIdiomaRepository _idiomaRepository;
         private readonly INivelAcademicoRepository _nivelAcademicoRepository;
+        private readonly ICompetenciaRepository _competenciaRepository;
         public CandidatoController(
             ICandidatoRepository repository, 
             IPuestoRepository puestoRepository, 
             IIdiomaRepository idiomaRepository, 
-            INivelAcademicoRepository nivelAcademicoRepository)
+            INivelAcademicoRepository nivelAcademicoRepository,
+            ICompetenciaRepository competenciaRepository)
         {
             _repository = repository;
             _puestoRepository = puestoRepository;
             _idiomaRepository = idiomaRepository;
             _nivelAcademicoRepository = nivelAcademicoRepository;
+            _competenciaRepository = competenciaRepository;
+        }
+        private IEnumerable<string> GetCompetenciasDdl()
+        {
+            return _competenciaRepository.GetAll().Select(x => x.Descripcion).Distinct();
         }
         // GET: CandidatoController
-        public ActionResult Index()
+        public ActionResult Index(CandidatoFilterViewModel viewModel)
         {
-            return View(_repository.GetAll().ToList());
+            var data = _repository.GetAll();         
+            // filtros
+            if (viewModel != null)
+            {
+                if(viewModel.Competencias != null)
+                {
+                    var competenciasData = _competenciaRepository.GetAll()
+                        .Where(x => viewModel.Competencias.Contains(x.Descripcion)).Select(x => x.CandidatoId.ToString());
+                    data = data.Where(x => competenciasData.Contains(x.Id.ToString()));
+                }
+            }
+            
+            ViewBag.Competencias = new SelectList(GetCompetenciasDdl());
+            return View(new CandidatoFilterViewModel() { Candidatos = data.ToList(), Competencias =  viewModel.Competencias});
         }
-
         // GET: CandidatoController/Details/5
         public ActionResult Details(int id)
         {
