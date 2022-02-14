@@ -12,11 +12,14 @@ namespace RecruitmentSystem.Domain.Entities
     {
         public string Cedula { get; set; }
         public string Nombre { get; set; }
+        [Display(Name = "Fecha Ingreso")]
         [DataType(DataType.Date)]
         public DateTime FechaIngreso { get; set; }
         public string Departamento { get; set; }
+        [Display(Name = "Puesto")]
         public int PuestoId { get; set; }
         public virtual Puesto Puesto { get; set; }
+        [Display(Name = "Salario Mensual")]
         public double SalarioMensual { get; set; }
         public bool Estado { get; set; }
     }

@@ -19,18 +19,5 @@ namespace RecruitmentSystem.Infrastructure.Concrete
         {
             _context = dbContext;
         }
-
-        public void CrearCandidato(CandidatoViewModel _object)
-        {
-            try
-            {
-
-            }
-            catch (Exception e)
-            {
-
-                throw;
-            }
-        }
     }
 }

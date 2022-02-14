@@ -11,6 +11,5 @@ namespace RecruitmentSystem.Domain.Abstract
 {
     public interface ICandidatoRepository: IRepository<Candidato>
     {
-        public void CrearCandidato(CandidatoViewModel _object);
     }
 }

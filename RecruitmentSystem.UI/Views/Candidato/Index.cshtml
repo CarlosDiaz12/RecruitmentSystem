@@ -34,7 +34,7 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Cedula)
+                    @Html.ActionLink(item.Cedula, "IniciarContratacion", "Contratacion", new { id = item.Id })
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Nombre)

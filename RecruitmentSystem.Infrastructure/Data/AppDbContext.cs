@@ -71,7 +71,6 @@ namespace RecruitmentSystem.Infrastructure.Data
 
             // capacitaciones
 
-            // TODO: REPARA ESTA RELACION, DEBE SER UNO A MUCHOS; CANDIDATO => CAPACITACIONES.
             modelBuilder
                 .Entity<Candidato>()
                 .HasMany(c => c.PrincipalesCapacitaciones)
@@ -90,6 +89,13 @@ namespace RecruitmentSystem.Infrastructure.Data
                 .Entity<Candidato>()
                 .HasIndex(x => x.Cedula)
                 .IsUnique();
+
+            modelBuilder
+                .Entity<Candidato>()
+                .HasOne(m => m.PuestoAspira);
+
+            // puesto / candidato
+
 
             // query filters
             //modelBuilder
