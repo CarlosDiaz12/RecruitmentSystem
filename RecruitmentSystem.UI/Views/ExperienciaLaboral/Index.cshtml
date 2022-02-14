@@ -1,0 +1,66 @@
+﻿@model IEnumerable<RecruitmentSystem.Domain.Entities.ExperienciaLaboral>
+
+@{
+    ViewData["Title"] = "Gestion de Experiencas Laborales";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Gestion de Experiencias Laborales</h2>
+<p>
+    <a asp-action="Create" class="btn btn-success btn-sm">Agregar</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Candidato)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Empresa)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PuestoOcupado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaDesde)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaHasta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Salario)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Candidato.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Empresa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PuestoOcupado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaDesde)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaHasta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Salario)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new {  id=item.Id  }) |
+                @Html.ActionLink("Detalle", "Details", new {  id=item.Id  }) |
+                @Html.ActionLink("Eliminar", "Delete", new {  id=item.Id })
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
