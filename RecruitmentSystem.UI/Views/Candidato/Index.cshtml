@@ -24,6 +24,14 @@
                 </select>
             </div>
         </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Puestos" class="control-label">Puesto</label>
+                <select asp-for="Puestos" id="select-puestos" class="form-control" asp-items="@ViewBag.Puestos" multiple="multiple">
+                    <option disabled>Selecciona</option>
+                </select>
+            </div>
+        </div>
         <div class="col-md-4 d-flex align-items-end">
             <div class="form-group">
                 <input type="submit" value="Filtrar" class="btn btn-primary btn-sm" />
@@ -70,7 +78,7 @@
                     @Html.DisplayFor(modelItem => item.Departamento)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PuestoAspira.Nombre) <span>Aspira</span>
+                    @Html.DisplayFor(modelItem => item.PuestoAspira.Nombre)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.SalarioAspira)
@@ -94,6 +102,11 @@
     <script>
         $(document).ready(function () {
             $('#select-competencias').select2({
+                placeholder: "Selecciona",
+                allowClear: true
+            });
+
+            $('#select-puestos').select2({
                 placeholder: "Selecciona",
                 allowClear: true
             });

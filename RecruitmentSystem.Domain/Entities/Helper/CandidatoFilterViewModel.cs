@@ -9,6 +9,7 @@ namespace RecruitmentSystem.Domain.Entities.Helper
     public class CandidatoFilterViewModel
     {
         public string[] Competencias { get; set; }
+        public string[] Puestos { get; set; }
         public List<Candidato> Candidatos { get; set; }
     }
 }

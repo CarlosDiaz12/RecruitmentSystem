@@ -10,5 +10,6 @@ namespace RecruitmentSystem.Domain.Abstract
 {
     public interface IIdiomaRepository: IRepository<Idioma>
     {
+        public IQueryable<CandidatoIdioma> GetCandidatoIdiomasAll();
     }
 }

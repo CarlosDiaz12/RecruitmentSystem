@@ -1,4 +1,5 @@
-﻿using RecruitmentSystem.Domain.Abstract;
+﻿using Microsoft.EntityFrameworkCore;
+using RecruitmentSystem.Domain.Abstract;
 using RecruitmentSystem.Domain.Entities;
 using RecruitmentSystem.Domain.Entities.Helper;
 using RecruitmentSystem.Infrastructure.Concrete.Base;
@@ -18,6 +19,24 @@ namespace RecruitmentSystem.Infrastructure.Concrete
             : base(dbContext)
         {
             _context = dbContext;
+        }
+
+        public Candidato GetByIdNoTracking(int Id)
+        {
+            try
+            {
+                var data = _context.Candidatos.Find(Id);
+                if (data == null)
+                {
+                    return data;
+                }
+                _context.Entry(data).State = EntityState.Detached;
+                return data;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

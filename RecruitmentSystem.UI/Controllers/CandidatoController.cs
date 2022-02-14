@@ -35,6 +35,12 @@ namespace RecruitmentSystem.UI.Controllers
         {
             return _competenciaRepository.GetAll().Select(x => x.Descripcion).Distinct();
         }
+
+        private IEnumerable<string> GetPuestosDdl()
+        {
+            return _puestoRepository.GetAll().Select(x => x.Nombre).Distinct();
+        }
+
         // GET: CandidatoController
         public ActionResult Index(CandidatoFilterViewModel viewModel)
         {
@@ -45,13 +51,19 @@ namespace RecruitmentSystem.UI.Controllers
                 if(viewModel.Competencias != null)
                 {
                     var competenciasData = _competenciaRepository.GetAll()
-                        .Where(x => viewModel.Competencias.Contains(x.Descripcion)).Select(x => x.CandidatoId.ToString());
+                        .Where(x => viewModel.Competencias.Contains(x.Descripcion))
+                        .Select(x => x.CandidatoId.ToString());
                     data = data.Where(x => competenciasData.Contains(x.Id.ToString()));
                 }
+
+                if(viewModel.Puestos != null)
+                {
+                    data = data.Where(x => viewModel.Puestos.Contains(x.PuestoAspira.Nombre));
+                }
             }
-            
+            ViewBag.Puestos = new SelectList(GetPuestosDdl());
             ViewBag.Competencias = new SelectList(GetCompetenciasDdl());
-            return View(new CandidatoFilterViewModel() { Candidatos = data.ToList(), Competencias =  viewModel.Competencias});
+            return View(new CandidatoFilterViewModel() { Candidatos = data.ToList(), Competencias =  viewModel.Puestos, Puestos = viewModel.Puestos });
         }
         // GET: CandidatoController/Details/5
         public ActionResult Details(int id)
@@ -145,8 +157,7 @@ namespace RecruitmentSystem.UI.Controllers
                     ExperienciasLaborales = _object.ExperienciasLaborales.ToList(),
                     Competencias = _object.PrincipalesCompetencias.ToList(),
                     Idiomas = _object.Idiomas.Select(m => m.IdiomaId.ToString()).ToArray(),
-                    Capacitaciones = _object.PrincipalesCapacitaciones.ToList()
-                    
+                    Capacitaciones = _object.PrincipalesCapacitaciones.ToList() 
                 };
 
                 ViewBag.PuestoAspiraId = new SelectList(_puestoRepository.GetAll().ToList(), "Id", "Nombre");
@@ -173,12 +184,24 @@ namespace RecruitmentSystem.UI.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (!_repository.CheckIfExists(id))
+                    var data = _repository.GetByIdNoTracking(id);
+                    if (data == null)
                         throw new Exception("Registro no encontrado");
 
+                    var selectedIdiomas = _idiomaRepository
+                        .GetAll()
+                        .Where(x => _object.Idiomas.Contains(x.Id.ToString()))
+                        .ToList()
+                        .Select(x => new CandidatoIdioma { 
+                            CandidatoId = _object.Id,
+                            IdiomaId = x.Id
+                        });
+
+                    data.Idiomas = selectedIdiomas.ToList();
                     // mapear datos
                     var candidatoUpdated = new Candidato()
                     {
+                        Id = _object.Id,
                         Nombre = _object.Nombre,
                         Cedula = _object.Cedula,
                         Departamento = _object.Departamento,
@@ -188,7 +211,7 @@ namespace RecruitmentSystem.UI.Controllers
                         ExperienciasLaborales = _object.ExperienciasLaborales,
                         PrincipalesCompetencias = _object.Competencias,
                         PrincipalesCapacitaciones = _object.Capacitaciones,
-                        Idiomas = _object.Idiomas.Select(x => new CandidatoIdioma { IdiomaId = int.Parse(x) }).ToList()
+                        Idiomas = data.Idiomas,
                     };
                     _repository.Update(candidatoUpdated);
                 }
@@ -197,7 +220,7 @@ namespace RecruitmentSystem.UI.Controllers
                     ViewBag.PuestoAspiraId = new SelectList(_puestoRepository.GetAll().ToList(), "Id", "Nombre");
                     ViewBag.Idiomas = new SelectList(_idiomaRepository.GetAll().ToList(), "Id", "Nombre");
                     ViewBag.NivelesCapacitacion = new SelectList(_nivelAcademicoRepository.GetAll().ToList(), "Id", "Descripcion");
-                    return View();
+                    return View(_object);
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -207,7 +230,7 @@ namespace RecruitmentSystem.UI.Controllers
                 ViewBag.PuestoAspiraId = new SelectList(_puestoRepository.GetAll().ToList(), "Id", "Nombre");
                 ViewBag.Idiomas = new SelectList(_idiomaRepository.GetAll().ToList(), "Id", "Nombre");
                 ViewBag.NivelesCapacitacion = new SelectList(_nivelAcademicoRepository.GetAll().ToList(), "Id", "Descripcion");
-                return View();
+                return View(_object);
             }
         }
 

@@ -71,6 +71,7 @@
                 <div class="card mb-2">
                     <div class="card-body">
                         <input asp-for="ExperienciasLaborales[i].Id" hidden />
+                        <input asp-for="ExperienciasLaborales[i].CandidatoId" hidden />
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -128,6 +129,7 @@
                 <div class="card mb-1">
                     <div class="card-body">
                         <input asp-for="Competencias[i].Id" hidden />
+                        <input asp-for="Competencias[i].CandidatoId" hidden />
                         <div class="form-group">
                             <label asp-for="Competencias[i].Descripcion" class="control-label"></label>
                             <input class="form-control" asp-for="Competencias[i].Descripcion" />
@@ -151,6 +153,7 @@
                 <div class="card mb-1">
                     <div class="card-body">
                         <input asp-for="Capacitaciones[i].Id" hidden />
+                        <input asp-for="Capacitaciones[i].CandidatoId" hidden />
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
