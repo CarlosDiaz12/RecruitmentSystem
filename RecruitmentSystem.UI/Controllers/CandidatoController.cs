@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static RecruitmentSystem.Domain.Entities.Helper.FilterModel;
 
 namespace RecruitmentSystem.UI.Controllers
 {
@@ -18,18 +19,21 @@ namespace RecruitmentSystem.UI.Controllers
         private readonly IIdiomaRepository _idiomaRepository;
         private readonly INivelAcademicoRepository _nivelAcademicoRepository;
         private readonly ICompetenciaRepository _competenciaRepository;
+        private readonly ICapacitacionRepository _capacitacionRepository;
         public CandidatoController(
             ICandidatoRepository repository, 
             IPuestoRepository puestoRepository, 
             IIdiomaRepository idiomaRepository, 
             INivelAcademicoRepository nivelAcademicoRepository,
-            ICompetenciaRepository competenciaRepository)
+            ICompetenciaRepository competenciaRepository,
+            ICapacitacionRepository capacitacionRepository)
         {
             _repository = repository;
             _puestoRepository = puestoRepository;
             _idiomaRepository = idiomaRepository;
             _nivelAcademicoRepository = nivelAcademicoRepository;
             _competenciaRepository = competenciaRepository;
+            _capacitacionRepository = capacitacionRepository;
         }
         private IEnumerable<string> GetCompetenciasDdl()
         {
@@ -41,29 +45,64 @@ namespace RecruitmentSystem.UI.Controllers
             return _puestoRepository.GetAll().Select(x => x.Nombre).Distinct();
         }
 
+        private IEnumerable<string> GetCapacitacionesDdl()
+        {
+            return _capacitacionRepository.GetAll().Select(x => x.Descripcion).Distinct();
+        }
+
         // GET: CandidatoController
         public ActionResult Index(CandidatoFilterViewModel viewModel)
         {
-            var data = _repository.GetAll();         
-            // filtros
-            if (viewModel != null)
+            try
             {
-                if(viewModel.Competencias != null)
+                var filters = new List<FilterModel>{
+                    new FilterModel() { Operation = Op.Contains, PropertyName = nameof(Candidato.Nombre), Value = viewModel.Nombre ?? "" }
+                };
+                var data = _repository.GetAll(filters);
+
+                // filtros
+                if (viewModel != null)
                 {
-                    var competenciasData = _competenciaRepository.GetAll()
-                        .Where(x => viewModel.Competencias.Contains(x.Descripcion))
-                        .Select(x => x.CandidatoId.ToString());
-                    data = data.Where(x => competenciasData.Contains(x.Id.ToString()));
+                    if (viewModel.Competencias != null)
+                    {
+                        var competenciasData = _competenciaRepository.GetAll()
+                            .Where(x => viewModel.Competencias.Contains(x.Descripcion))
+                            .Select(x => x.CandidatoId.ToString());
+                        data = data.Where(x => competenciasData.Contains(x.Id.ToString()));
+                    }
+
+                    if (viewModel.Puestos != null)
+                    {
+                        data = data.Where(x => viewModel.Puestos.Contains(x.PuestoAspira.Nombre));
+                    }
+
+                    if (viewModel.Capacitaciones != null)
+                    {
+                        var capacitacionesData = _capacitacionRepository.GetAll()
+                            .Where(x => viewModel.Capacitaciones.Contains(x.Descripcion))
+                            .Select(x => x.CandidatoId.ToString());
+                        data = data.Where(x => capacitacionesData.Contains(x.Id.ToString()));
+                    }
                 }
 
-                if(viewModel.Puestos != null)
-                {
-                    data = data.Where(x => viewModel.Puestos.Contains(x.PuestoAspira.Nombre));
-                }
+                ViewBag.Puestos = new SelectList(GetPuestosDdl());
+                ViewBag.Competencias = new SelectList(GetCompetenciasDdl());
+                ViewBag.Capacitaciones = new SelectList(GetCapacitacionesDdl());
+                return View(
+                    new CandidatoFilterViewModel()
+                    {
+                        Candidatos = data.ToList(),
+                        Competencias = viewModel.Competencias,
+                        Puestos = viewModel.Puestos,
+                        Capacitaciones = viewModel.Capacitaciones,
+                        Nombre = viewModel.Nombre
+                    });
             }
-            ViewBag.Puestos = new SelectList(GetPuestosDdl());
-            ViewBag.Competencias = new SelectList(GetCompetenciasDdl());
-            return View(new CandidatoFilterViewModel() { Candidatos = data.ToList(), Competencias =  viewModel.Puestos, Puestos = viewModel.Puestos });
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+                return View(new CandidatoFilterViewModel());
+            }
         }
         // GET: CandidatoController/Details/5
         public ActionResult Details(int id)

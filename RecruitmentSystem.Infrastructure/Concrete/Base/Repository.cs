@@ -75,7 +75,7 @@ namespace RecruitmentSystem.Infrastructure.Concrete.Base
             {
                 if (filters == null) return _dbSet.AsQueryable();
                 var deleg = ExpressionBuilderUtil.GetExpression<T>(filters).Compile();
-                var filteredCollection = _dbSet.AsNoTracking().Where(deleg).AsQueryable();
+                var filteredCollection = _dbSet.Where(deleg).AsQueryable();
                 return filteredCollection;
             }
             catch (Exception)

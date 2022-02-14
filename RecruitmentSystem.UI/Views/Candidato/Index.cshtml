@@ -16,7 +16,13 @@
 
 <form asp-action="Index" method="get">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="Nombre" class="control-label">Nombre</label>
+                <input asp-for="Nombre" type="text" class="form-control"/>
+            </div>
+        </div>
+        <div class="col-md-3">
             <div class="form-group">
                 <label asp-for="Competencias" class="control-label">Competencias</label>
                 <select asp-for="Competencias" id="select-competencias" class="form-control" asp-items="@ViewBag.Competencias" multiple="multiple">
@@ -24,15 +30,25 @@
                 </select>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="form-group">
-                <label asp-for="Puestos" class="control-label">Puesto</label>
+                <label asp-for="Puestos" class="control-label">Puestos</label>
                 <select asp-for="Puestos" id="select-puestos" class="form-control" asp-items="@ViewBag.Puestos" multiple="multiple">
                     <option disabled>Selecciona</option>
                 </select>
             </div>
         </div>
-        <div class="col-md-4 d-flex align-items-end">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="Capacitaciones" class="control-label">Capacitaciones</label>
+                <select asp-for="Capacitaciones" id="select-capacitaciones" class="form-control" asp-items="@ViewBag.Capacitaciones" multiple="multiple">
+                    <option disabled>Selecciona</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
             <div class="form-group">
                 <input type="submit" value="Filtrar" class="btn btn-primary btn-sm" />
             </div>
@@ -103,10 +119,15 @@
         $(document).ready(function () {
             $('#select-competencias').select2({
                 placeholder: "Selecciona",
-                allowClear: true
+                allowClear: true,
             });
 
             $('#select-puestos').select2({
+                placeholder: "Selecciona",
+                allowClear: true
+            });
+
+            $('#select-capacitaciones').select2({
                 placeholder: "Selecciona",
                 allowClear: true
             });
