@@ -115,20 +115,36 @@ namespace RecruitmentSystem.UI.Controllers
         // GET: ExperienciaLaboralController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            try
+            {
+                var data = _repository.GetById(id);
+                if (data == null)
+                    throw new Exception("Registro no encontrado");
+
+                return View(data);
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+                return View();
+            }
         }
 
         // POST: ExperienciaLaboralController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, ExperienciaLaboral _object)
         {
             try
             {
+                if (!_repository.CheckIfExists(id))
+                    throw new Exception("Registro no encontrado");
+                _repository.Delete(id);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception e)
             {
+                ViewBag.ErrorMessage = e.Message;
                 return View();
             }
         }
