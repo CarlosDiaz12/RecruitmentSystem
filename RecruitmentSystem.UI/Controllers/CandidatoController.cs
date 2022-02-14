@@ -37,7 +37,18 @@ namespace RecruitmentSystem.UI.Controllers
         // GET: CandidatoController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            try
+            {
+                var data = _repository.GetById(id);
+                if (data == null)
+                    throw new Exception("Registro no encontrado");
+                return View(data);
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+                return View();
+            }
         }
 
         // GET: CandidatoController/Create

@@ -11,6 +11,7 @@ namespace RecruitmentSystem.Domain.Entities
 {
     public class Puesto: BaseEntity
     {
+        [Display(Name = "Puesto")]
         public string Nombre { get; set; }
         [Display(Name = "Nivel Riesgo")]
         public NivelRiesgo NivelRiesgo { get; set; }

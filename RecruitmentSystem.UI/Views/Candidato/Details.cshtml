@@ -1,0 +1,93 @@
+﻿@model RecruitmentSystem.Domain.Entities.Candidato
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Detalles</h1>
+<div>
+    <h4>Candidato</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Cedula)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Cedula)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Idiomas)
+        </dt>
+        <dd class="col-sm-10">
+            <span>@string.Join(", ", Model.Idiomas.ToList().Select(x => x.Idioma.Nombre))</span>           
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PuestoAspira.Nombre) Aspira
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PuestoAspira.Nombre)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Departamento)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Departamento)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SalarioAspira)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SalarioAspira)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RecomendadoPor)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RecomendadoPor)
+        </dd>
+    </dl>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <h5>Principales Competenecias</h5>
+        <ul class="list-group w-75">
+            @foreach (var item in Model.PrincipalesCompetencias)
+            {
+                <li class="list-group-item">@item.Descripcion</li>
+            }
+        </ul>
+    </div>
+    <div class="col-md-6">
+        <h5>Experiencia Laboral</h5>
+        <ul class="list-group">
+            @foreach (var item in Model.ExperienciasLaborales)
+            {
+                <li class="list-group-item">@item.Empresa - @item.PuestoOcupado</li>
+            }
+        </ul>
+    </div>
+</div>
+<hr />
+<div class="row mt-1">
+    <div class="col-md-6">
+        <h5>Principales Capacitaciones</h5>
+        <ul class="list-group w-75">
+            @foreach (var item in Model.PrincipalesCapacitaciones)
+            {
+                <li class="list-group-item">@item.Institucion - @item.Descripcion</li>
+            }
+        </ul>
+    </div>
+</div>
+<div class="mt-3">
+    @Html.ActionLink("Editar", "Edit", new { id = Model.Id },htmlAttributes: new { @class = "btn btn-info"}) |
+    <a asp-action="Index">Regresar</a>
+</div>
