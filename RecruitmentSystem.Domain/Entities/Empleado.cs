@@ -15,6 +15,7 @@ namespace RecruitmentSystem.Domain.Entities
         [Display(Name = "Fecha Ingreso")]
         [DataType(DataType.Date)]
         public DateTime FechaIngreso { get; set; }
+        // TODO: CONVERTIR ESTO EN UNA TABLA CON RELACION DE UNO A UNO
         public string Departamento { get; set; }
         [Display(Name = "Puesto")]
         public int PuestoId { get; set; }
