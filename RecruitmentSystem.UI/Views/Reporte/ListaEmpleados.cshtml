@@ -6,34 +6,46 @@
 }
 
 <h4>Lista Empleados</h4>
-
-<form asp-action="ListaEmpleados" method="get">
-    <div class="row">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    </div>
-    <div class="row">
-        <div class="col-md-3">
-            <div class="form-group">
-                <label asp-for="FechaDesde" class="control-label"></label>
-                <input asp-for="FechaDesde" class="form-control" type="date" />
+<div class="row">
+    <form asp-action="ListaEmpleados" method="get" class="w-100">
+        <div class="row">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="FechaDesde" class="control-label"></label>
+                    <input asp-for="FechaDesde" class="form-control" type="date" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="FechaHasta" class="control-label"></label>
+                    <input asp-for="FechaHasta" class="form-control" type="date" />
+                </div>
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+                <div class="form-group">
+                    <input type="submit" value="Filtrar" class="btn btn-primary" />
+                </div>
+                <div class="form-group ml-1">
+                    <a asp-action="ListaEmpleados" class="btn btn-info">Limpiar</a>
+                </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label asp-for="FechaHasta" class="control-label"></label>
-                <input asp-for="FechaHasta" class="form-control" type="date" />
+    </form>
+</div>
+<div class="row">
+    <form asp-action="GenerateExcelReport" method="post" class="w-100">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <input type="submit" value="Exportar" class="btn btn-outline-secondary btn-sm" />
+                </div>
             </div>
         </div>
-        <div class="col-md-3 d-flex align-items-end">
-            <div class="form-group">
-                <input type="submit" value="Filtrar" class="btn btn-primary" />
-            </div>
-            <div class="form-group ml-1">
-                <a asp-action="ListaEmpleados" class="btn btn-info">Limpiar</a>
-            </div>
-        </div>
-    </div>
-</form>
+    </form>
+</div>
 
 @if (ViewBag.ErrorMessage != null)
 {

@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using RecruitmentSystem.Domain.Abstract;
 using RecruitmentSystem.Domain.Entities;
 using RecruitmentSystem.Domain.Entities.Helper;
+using RecruitmentSystem.Infrastructure.Helper;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -36,11 +38,6 @@ namespace RecruitmentSystem.UI.Controllers
                         ModelState.AddModelError("", "Rango De Fechas Incorrecto");
                     }
                 }
-                var filters = new List<FilterModel>
-                {
-                    //new FilterModel() { Operation = FilterModel.Op.GreaterThanOrEqual, PropertyName = "FechaIngreso", Value = viewModel.FechaDesde },
-                    //new FilterModel() { Operation = FilterModel.Op.LessThanOrEqual, PropertyName = "FechaIngreso", Value = viewModel.FechaHasta }
-                };
 
                 if(ModelState.IsValid)
                 {
@@ -61,6 +58,51 @@ namespace RecruitmentSystem.UI.Controllers
                 ViewBag.ErrorMessage = e.Message;
                 viewModel.Empleados ??= new List<Empleado>();
                 return View(viewModel);
+            }
+        }
+        [HttpPost]
+        public ActionResult GenerateExcelReport()
+        {
+            try
+            {
+                var columnNames = new string[] { "Cedula", "Nombre", "FechaIngreso", "Departamento", "Puesto", "SalarioMensual", "Estado" };
+                var empleados = _empleadoRepository.GetAll().ToList();
+
+                DataTable dtEmpleados = new DataTable("Empleados");
+                var columns = new DataColumn[columnNames.Length];
+                foreach (var item in columnNames)
+                {
+                    dtEmpleados.Columns.Add(new DataColumn(item));
+                }
+
+                foreach (var empleado in empleados)
+                {
+                    dtEmpleados.Rows.Add(
+                        empleado.Cedula,
+                        empleado.Nombre,
+                        empleado.FechaIngreso.ToShortDateString(),
+                        empleado.Departamento,
+                        empleado.Puesto.Nombre,
+                        empleado.SalarioMensual,
+                        empleado.Estado ? "Activo" : "Inactivo"
+                        );
+                }
+
+                var content = ReportGenerator.GenerateExcel("Empleados", dtEmpleados, columnNames);
+                Response.Clear();
+                Response.Headers.Clear();
+                Response.ContentType = "application/excel";
+                Response.Headers.Add("content-disposition", $"attachment;filename=ReporteEmpleados_{DateTime.Now.ToShortDateString()}.xls");
+                Response.Headers.Add("content-length", content.File.Length.ToString()); //Here is the additional header which is required for Chrome.
+                Response.Body.WriteAsync(content.File);
+                Response.Body.Flush();
+                Response.Body.Close();
+                return null;
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+                return View("ListaEmpleados", new EmpleadoFilterViewModel());
             }
         }
 

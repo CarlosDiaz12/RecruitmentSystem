@@ -41,7 +41,8 @@ namespace RecruitmentSystem.UI
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-            app.UseStaticFiles();
+            var staticOptions = new StaticFileOptions() { ServeUnknownFileTypes = true };
+            app.UseStaticFiles(staticOptions);
 
             app.UseRouting();
 
