@@ -42,29 +42,32 @@ namespace RecruitmentSystem.UI.Controllers
             }
         }
 
-        // GET: DepartamentoController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
         // GET: DepartamentoController/Create
         public ActionResult Create()
         {
-            return View();
+            return View(new Departamento() { Estado = true});
         }
 
         // POST: DepartamentoController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Departamento _object)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _repository.Create(_object);
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    return View();
+                }
             }
-            catch
+            catch (Exception e)
             {
+                ViewBag.ErrorMessage = e.Message;
                 return View();
             }
         }
@@ -72,20 +75,43 @@ namespace RecruitmentSystem.UI.Controllers
         // GET: DepartamentoController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            try
+            {
+                var data = _repository.GetById(id);
+                if (data == null)
+                    throw new Exception("Registro no encontrado");
+
+                return View(data);
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+                return View();
+            }
         }
 
         // POST: DepartamentoController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Departamento _object)
         {
             try
             {
+                if (ModelState.IsValid)
+                {
+                    if (!_repository.CheckIfExists(id))
+                        throw new Exception("Registro no encontrado");
+                    _repository.Update(_object);
+                }
+                else
+                {
+                    return View();
+                }
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception e)
             {
+                ViewBag.ErrorMessage = e.Message;
                 return View();
             }
         }
@@ -93,7 +119,19 @@ namespace RecruitmentSystem.UI.Controllers
         // GET: DepartamentoController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            try
+            {
+                var data = _repository.GetById(id);
+                if (data == null)
+                    throw new Exception("Registro no encontrado");
+
+                return View(data);
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+                return View();
+            }
         }
 
         // POST: DepartamentoController/Delete/5
@@ -103,10 +141,14 @@ namespace RecruitmentSystem.UI.Controllers
         {
             try
             {
+                if (!_repository.CheckIfExists(id))
+                    throw new Exception("Registro no encontrado");
+                _repository.Delete(id);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception e)
             {
+                ViewBag.ErrorMessage = e.Message;
                 return View();
             }
         }
