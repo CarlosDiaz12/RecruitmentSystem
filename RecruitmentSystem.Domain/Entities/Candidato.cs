@@ -10,14 +10,19 @@ namespace RecruitmentSystem.Domain.Entities
 {
     public class Candidato: BaseEntity
     {
+        [Required]
         public string Cedula { get; set; }
+        [Required]
         public string Nombre { get; set; }
+        [Required]
         [Display(Name = "Puesto Aspira")]
         public int PuestoAspiraId { get; set; }
         public virtual Puesto PuestoAspira { get; set; }
+        [Required]
         [Display(Name = "Departamento")]
         public int DepartamentoPerteneceId { get; set; }
         public virtual Departamento DepartamentoPertenece { get; set; }
+        [Required]
         [Display(Name = "Salario Aspira")]
         public double SalarioAspira { get; set; }
         public virtual ICollection<Competencia> PrincipalesCompetencias { get; set; }
