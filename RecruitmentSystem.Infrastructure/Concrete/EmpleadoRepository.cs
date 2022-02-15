@@ -12,8 +12,23 @@ namespace RecruitmentSystem.Infrastructure.Concrete
 {
     public class EmpleadoRepository : Repository<Empleado>, IEmpleadoRepository
     {
+        private readonly AppDbContext _dbContext;
         public EmpleadoRepository(AppDbContext dbContext) : base(dbContext)
         {
+            _dbContext = dbContext;
+        }
+
+        public IQueryable<Empleado> GetEmpleadosByRange(DateTime start, DateTime end)
+        {
+            try
+            {
+                return _dbContext.Empleados.Where(x => DateTime.Compare(x.FechaIngreso, start.Date) >= 0
+                        && DateTime.Compare(x.FechaIngreso, end.Date) <= 0);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

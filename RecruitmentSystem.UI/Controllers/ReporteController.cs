@@ -44,9 +44,7 @@ namespace RecruitmentSystem.UI.Controllers
                     var data = _empleadoRepository.GetAll();
                     if (viewModel.FechaDesde != null && viewModel.FechaHasta != null)
                     {
-                        data = data.
-                            Where(x => DateTime.Compare(x.FechaIngreso, viewModel.FechaDesde.Value.Date) >= 0 
-                            && DateTime.Compare(x.FechaIngreso, viewModel.FechaHasta.Value.Date) <= 0);
+                        data = _empleadoRepository.GetEmpleadosByRange(viewModel.FechaDesde.Value, viewModel.FechaHasta.Value);
                     }
                     viewModel.Empleados = data.ToList();
                 }
@@ -61,13 +59,18 @@ namespace RecruitmentSystem.UI.Controllers
             }
         }
         [HttpPost]
-        public ActionResult GenerateExcelReport()
+        public ActionResult GenerateExcelReport(DateTime? fechaDesde, DateTime? fechaHasta)
         {
             try
             {
-                var columnNames = new string[] { "Cedula", "Nombre", "FechaIngreso", "Departamento", "Puesto", "SalarioMensual", "Estado" };
-                var empleados = _empleadoRepository.GetAll().ToList();
+                var empleados = _empleadoRepository.GetAll();
+                if(fechaDesde != null && fechaHasta != null 
+                    && DateTime.Compare(fechaDesde.Value.Date, fechaHasta.Value.Date) < 0)
+                {
+                    empleados = _empleadoRepository.GetEmpleadosByRange(fechaDesde.Value, fechaHasta.Value);
+                }
 
+                var columnNames = new string[] { "Cedula", "Nombre", "FechaIngreso", "Departamento", "Puesto", "SalarioMensual", "Estado" };
                 DataTable dtEmpleados = new DataTable("Empleados");
                 var columns = new DataColumn[columnNames.Length];
                 foreach (var item in columnNames)
@@ -75,7 +78,7 @@ namespace RecruitmentSystem.UI.Controllers
                     dtEmpleados.Columns.Add(new DataColumn(item));
                 }
 
-                foreach (var empleado in empleados)
+                foreach (var empleado in empleados.ToList())
                 {
                     dtEmpleados.Rows.Add(
                         empleado.Cedula,
@@ -102,7 +105,7 @@ namespace RecruitmentSystem.UI.Controllers
             catch (Exception e)
             {
                 ViewBag.ErrorMessage = e.Message;
-                return View("ListaEmpleados", new EmpleadoFilterViewModel());
+                return View("ListaEmpleados", new EmpleadoFilterViewModel() { FechaDesde = fechaDesde, FechaHasta = fechaHasta });
             }
         }
 
