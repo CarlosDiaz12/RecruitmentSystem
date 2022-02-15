@@ -11,14 +11,19 @@ namespace RecruitmentSystem.Domain.Entities
 {
     public class Capacitacion: BaseEntity
     {
+        [Required]
         public string Descripcion { get; set; }
+        [Required]
         [Display(Name = "Nivel")]
         public int NivelId { get; set; }
         public virtual NivelAcademico Nivel { get; set; }
+        [Required]
         [DataType(DataType.Date)]
         public DateTime FechaDesde { get; set; }
+        [Required]
         [DataType(DataType.Date)]
         public DateTime FechaHasta { get; set; }
+        [Required]
         public string Institucion { get; set; }
         public int CandidatoId { get; set; }
         public virtual Candidato Candidato { get; set; }
