@@ -15,7 +15,9 @@ namespace RecruitmentSystem.Domain.Entities
         [Display(Name = "Puesto Aspira")]
         public int PuestoAspiraId { get; set; }
         public virtual Puesto PuestoAspira { get; set; }
-        public string Departamento { get; set; }
+        [Display(Name = "Departamento")]
+        public int DepartamentoPerteneceId { get; set; }
+        public virtual Departamento DepartamentoPertenece { get; set; }
         [Display(Name = "Salario Aspira")]
         public double SalarioAspira { get; set; }
         public virtual ICollection<Competencia> PrincipalesCompetencias { get; set; }

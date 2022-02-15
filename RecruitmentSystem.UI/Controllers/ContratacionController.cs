@@ -45,7 +45,7 @@ namespace RecruitmentSystem.UI.Controllers
                     Cedula = data.Cedula,
                     Nombre = data.Nombre,
                     FechaIngreso = DateTime.Now,
-                    Departamento = data.Departamento,
+                    //Departamento = data.Departamento,
                     Puesto = data.PuestoAspira,
                     SalarioMensual = data.SalarioAspira,
                     IdCandidato = id,

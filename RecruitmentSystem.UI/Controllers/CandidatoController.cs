@@ -20,13 +20,15 @@ namespace RecruitmentSystem.UI.Controllers
         private readonly INivelAcademicoRepository _nivelAcademicoRepository;
         private readonly ICompetenciaRepository _competenciaRepository;
         private readonly ICapacitacionRepository _capacitacionRepository;
+        private readonly IDepartamentoRepository _departamentoRepository;
         public CandidatoController(
             ICandidatoRepository repository, 
             IPuestoRepository puestoRepository, 
             IIdiomaRepository idiomaRepository, 
             INivelAcademicoRepository nivelAcademicoRepository,
             ICompetenciaRepository competenciaRepository,
-            ICapacitacionRepository capacitacionRepository)
+            ICapacitacionRepository capacitacionRepository,
+            IDepartamentoRepository departamentoRepository)
         {
             _repository = repository;
             _puestoRepository = puestoRepository;
@@ -34,6 +36,7 @@ namespace RecruitmentSystem.UI.Controllers
             _nivelAcademicoRepository = nivelAcademicoRepository;
             _competenciaRepository = competenciaRepository;
             _capacitacionRepository = capacitacionRepository;
+            _departamentoRepository = departamentoRepository;
         }
         private IEnumerable<string> GetCompetenciasDdl()
         {
@@ -49,6 +52,7 @@ namespace RecruitmentSystem.UI.Controllers
         {
             return _capacitacionRepository.GetAll().Select(x => x.Descripcion).Distinct();
         }
+
 
         // GET: CandidatoController
         public ActionResult Index(CandidatoFilterViewModel viewModel)
@@ -127,6 +131,7 @@ namespace RecruitmentSystem.UI.Controllers
             ViewBag.PuestoAspiraId = new SelectList(_puestoRepository.GetAll().ToList(), "Id", "Nombre");
             ViewBag.Idiomas = new SelectList(_idiomaRepository.GetAll().ToList(), "Id", "Nombre");
             ViewBag.NivelesCapacitacion = new SelectList(_nivelAcademicoRepository.GetAll().ToList(), "Id", "Descripcion");
+            ViewBag.DepartamentoId = new SelectList(_departamentoRepository.GetAll().ToList(), "Id", "Descripcion");
             return View();
         }
 
@@ -144,7 +149,7 @@ namespace RecruitmentSystem.UI.Controllers
                     {
                         Nombre = _object.Nombre,
                         Cedula = _object.Cedula,
-                        Departamento = _object.Departamento,
+                        DepartamentoPerteneceId = _object.DepartamentoId,
                         PuestoAspiraId = _object.PuestoAspiraId,
                         SalarioAspira = _object.SalarioAspira,
                         RecomendadoPor = _object.RecomendadoPor,
@@ -162,6 +167,7 @@ namespace RecruitmentSystem.UI.Controllers
                     ViewBag.PuestoAspiraId = new SelectList(_puestoRepository.GetAll().ToList(), "Id", "Nombre");
                     ViewBag.Idiomas = new SelectList(_idiomaRepository.GetAll().ToList(), "Id", "Nombre");
                     ViewBag.NivelesCapacitacion = new SelectList(_nivelAcademicoRepository.GetAll().ToList(), "Id", "Descripcion");
+                    ViewBag.DepartamentoId = new SelectList(_departamentoRepository.GetAll().ToList(), "Id", "Descripcion");
                     return View();
                 }
             }
@@ -171,6 +177,7 @@ namespace RecruitmentSystem.UI.Controllers
                 ViewBag.PuestoAspiraId = new SelectList(_puestoRepository.GetAll().ToList(), "Id", "Nombre");
                 ViewBag.Idiomas = new SelectList(_idiomaRepository.GetAll().ToList(), "Id", "Nombre");
                 ViewBag.NivelesCapacitacion = new SelectList(_nivelAcademicoRepository.GetAll().ToList(), "Id", "Descripcion");
+                ViewBag.DepartamentoId = new SelectList(_departamentoRepository.GetAll().ToList(), "Id", "Descripcion");
                 return View();
             }
         }
@@ -189,7 +196,7 @@ namespace RecruitmentSystem.UI.Controllers
                     Id = _object.Id,
                     Nombre = _object.Nombre,
                     Cedula = _object.Cedula,
-                    Departamento = _object.Departamento,
+                    DepartamentoId = _object.DepartamentoPerteneceId,
                     PuestoAspiraId = _object.PuestoAspiraId,
                     SalarioAspira = _object.SalarioAspira,
                     RecomendadoPor = _object.RecomendadoPor,
@@ -202,6 +209,7 @@ namespace RecruitmentSystem.UI.Controllers
                 ViewBag.PuestoAspiraId = new SelectList(_puestoRepository.GetAll().ToList(), "Id", "Nombre");
                 ViewBag.Idiomas = new SelectList(_idiomaRepository.GetAll().ToList(), "Id", "Nombre");
                 ViewBag.NivelesCapacitacion = new SelectList(_nivelAcademicoRepository.GetAll().ToList(), "Id", "Descripcion");
+                ViewBag.DepartamentoId = new SelectList(_departamentoRepository.GetAll().ToList(), "Id", "Descripcion");
                 return View(viewModelData);
             }
             catch (Exception e)
@@ -210,6 +218,7 @@ namespace RecruitmentSystem.UI.Controllers
                 ViewBag.PuestoAspiraId = new SelectList(_puestoRepository.GetAll().ToList(), "Id", "Nombre");
                 ViewBag.Idiomas = new SelectList(_idiomaRepository.GetAll().ToList(), "Id", "Nombre");
                 ViewBag.NivelesCapacitacion = new SelectList(_nivelAcademicoRepository.GetAll().ToList(), "Id", "Descripcion");
+                ViewBag.DepartamentoId = new SelectList(_departamentoRepository.GetAll().ToList(), "Id", "Descripcion");
                 return View();
             }
         }
@@ -243,7 +252,7 @@ namespace RecruitmentSystem.UI.Controllers
                         Id = _object.Id,
                         Nombre = _object.Nombre,
                         Cedula = _object.Cedula,
-                        Departamento = _object.Departamento,
+                        DepartamentoPerteneceId = _object.DepartamentoId,
                         PuestoAspiraId = _object.PuestoAspiraId,
                         SalarioAspira = _object.SalarioAspira,
                         RecomendadoPor = _object.RecomendadoPor,
@@ -259,6 +268,7 @@ namespace RecruitmentSystem.UI.Controllers
                     ViewBag.PuestoAspiraId = new SelectList(_puestoRepository.GetAll().ToList(), "Id", "Nombre");
                     ViewBag.Idiomas = new SelectList(_idiomaRepository.GetAll().ToList(), "Id", "Nombre");
                     ViewBag.NivelesCapacitacion = new SelectList(_nivelAcademicoRepository.GetAll().ToList(), "Id", "Descripcion");
+                    ViewBag.DepartamentoId = new SelectList(_departamentoRepository.GetAll().ToList(), "Id", "Descripcion");
                     return View(_object);
                 }
                 return RedirectToAction(nameof(Index));
@@ -269,6 +279,7 @@ namespace RecruitmentSystem.UI.Controllers
                 ViewBag.PuestoAspiraId = new SelectList(_puestoRepository.GetAll().ToList(), "Id", "Nombre");
                 ViewBag.Idiomas = new SelectList(_idiomaRepository.GetAll().ToList(), "Id", "Nombre");
                 ViewBag.NivelesCapacitacion = new SelectList(_nivelAcademicoRepository.GetAll().ToList(), "Id", "Descripcion");
+                ViewBag.DepartamentoId = new SelectList(_departamentoRepository.GetAll().ToList(), "Id", "Descripcion");
                 return View(_object);
             }
         }

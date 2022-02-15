@@ -90,12 +90,14 @@ namespace RecruitmentSystem.Infrastructure.Data
                 .HasIndex(x => x.Cedula)
                 .IsUnique();
 
+            // puesto / candidato
             modelBuilder
                 .Entity<Candidato>()
                 .HasOne(m => m.PuestoAspira);
 
-            // puesto / candidato
-
+            // departamento / candidato
+            modelBuilder.Entity<Candidato>()
+                .HasOne(x => x.DepartamentoPertenece);
 
             // query filters
             //modelBuilder
@@ -112,5 +114,6 @@ namespace RecruitmentSystem.Infrastructure.Data
         public DbSet<Empleado> Empleados { get; set; }
         public DbSet<NivelAcademico> NivelesAcademicos { get; set; }
         public DbSet<CandidatoIdioma> CandidatoIdioma { get; set; }
+        public DbSet<Departamento> Departamentos { get; set; }
     }
 }

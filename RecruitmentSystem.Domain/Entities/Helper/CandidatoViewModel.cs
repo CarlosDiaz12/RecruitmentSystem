@@ -14,7 +14,8 @@ namespace RecruitmentSystem.Domain.Entities.Helper
         public string Nombre { get; set; }
         [Display(Name = "Puesto Aspira")]
         public int PuestoAspiraId { get; set; }
-        public string Departamento { get; set; }
+        [Display(Name = "Departamento")]
+        public int DepartamentoId { get; set; }
         [Display(Name = "Salario Aspira")]
         public double SalarioAspira { get; set; }
         [ScaffoldColumn(false)]

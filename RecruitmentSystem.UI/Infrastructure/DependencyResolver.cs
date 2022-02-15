@@ -21,6 +21,7 @@ namespace RecruitmentSystem.UI.Infrastructure
             services.AddScoped<IExperienciaLaboralRepository, ExperienciaLaboralRepository>();
             services.AddScoped<INivelAcademicoRepository, NivelAcademicoRepository>();
             services.AddScoped<IEmpleadoRepository, EmpleadoRepository>();
+            services.AddScoped<IDepartamentoRepository, DepartamentoRepository>();
             return services;
         }
     }
