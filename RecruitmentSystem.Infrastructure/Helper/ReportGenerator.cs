@@ -24,12 +24,13 @@ namespace RecruitmentSystem.Infrastructure.Helper
                 {
                     var worksheet = workbook.Worksheets.Add(workSheetName);
                     var currentRow = 1;
-
+                    // COLUMNAS
                     for (int i = 0; i < columns.Length; i++)
                     {
                         worksheet.Cell(currentRow, i + 1).Value = columns[i];
                     }
 
+                    // CELDAS
                     for (int i = 0; i < data.Rows.Count; i++)
                     {
                         currentRow++;
@@ -49,7 +50,7 @@ namespace RecruitmentSystem.Infrastructure.Helper
                     };
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw;
             }
