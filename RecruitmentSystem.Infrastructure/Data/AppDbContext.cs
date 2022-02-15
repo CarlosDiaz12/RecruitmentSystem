@@ -90,6 +90,11 @@ namespace RecruitmentSystem.Infrastructure.Data
                 .HasIndex(x => x.Cedula)
                 .IsUnique();
 
+            modelBuilder
+                .Entity<Departamento>()
+                .HasIndex(x => x.Descripcion)
+                .IsUnique();
+
             // puesto / candidato
             modelBuilder
                 .Entity<Candidato>()

@@ -12,5 +12,6 @@ namespace RecruitmentSystem.Domain.Entities
     {
         [Display(Name = "Departamento")]
         public string Descripcion { get; set; }
+        public bool Estado { get; set; } = true;
     }
 }
