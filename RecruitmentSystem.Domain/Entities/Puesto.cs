@@ -11,14 +11,18 @@ namespace RecruitmentSystem.Domain.Entities
 {
     public class Puesto: BaseEntity
     {
+        [Required]
         [Display(Name = "Puesto")]
         public string Nombre { get; set; }
+        [Required]
         [Display(Name = "Nivel Riesgo")]
         public NivelRiesgo NivelRiesgo { get; set; }
+        [Required]
         [Display(Name = "Salario Minimo")]
         public double NivelMinimoSalario { get; set; }
+        [Required]
         [Display(Name = "Salario Maximo")]
         public double NivelMaximoSalario { get; set; }
-        public bool Estado { get; set; }
+        public bool Estado { get; set; } = true;
     }
 }

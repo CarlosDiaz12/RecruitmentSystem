@@ -10,6 +10,7 @@ namespace RecruitmentSystem.Domain.Entities
 {
     public class Competencia: BaseEntity
     {
+        [Required]
         public string Descripcion { get; set; }
         public bool Estado { get; set; } = true;
         [Display(Name = "Candidato")]

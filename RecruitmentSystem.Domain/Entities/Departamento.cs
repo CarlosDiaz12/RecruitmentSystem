@@ -10,6 +10,7 @@ namespace RecruitmentSystem.Domain.Entities
 {
     public class Departamento: BaseEntity
     {
+        [Required]
         [Display(Name = "Departamento")]
         public string Descripcion { get; set; }
         public bool Estado { get; set; } = true;

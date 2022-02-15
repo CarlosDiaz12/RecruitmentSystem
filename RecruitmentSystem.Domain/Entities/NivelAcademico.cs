@@ -10,6 +10,7 @@ namespace RecruitmentSystem.Domain.Entities
 {
     public class NivelAcademico: BaseEntity
     {
+        [Required]
         [Display(Name = "Nivel")]
         public string Descripcion { get; set; }
     }
