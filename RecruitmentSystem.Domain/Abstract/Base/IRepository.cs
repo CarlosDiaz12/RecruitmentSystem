@@ -1,4 +1,5 @@
-﻿using RecruitmentSystem.Domain.Entities.Helper;
+﻿
+using RecruitmentSystem.Domain.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;

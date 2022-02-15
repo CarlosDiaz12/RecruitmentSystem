@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RecruitmentSystem.Domain.Abstract;
-using RecruitmentSystem.Domain.Entities.Helper;
+using RecruitmentSystem.Domain.Entities;
+using RecruitmentSystem.Domain.Util;
+using RecruitmentSystem.Domain.Entities.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static RecruitmentSystem.Domain.Util.FilterModel;
 
 namespace RecruitmentSystem.UI.Controllers
 {
@@ -17,11 +20,26 @@ namespace RecruitmentSystem.UI.Controllers
             _repository = repository;
         }
         // GET: DepartamentoController
-        public ActionResult Index()
+        public ActionResult Index(DepartamentoFilterModel viewModel)
         {
             var filters = new List<FilterModel>();
-            var data = _repository.GetAll();
-            return View(data);
+            try
+            {
+                if(viewModel != null && !string.IsNullOrWhiteSpace(viewModel.Descripcion))
+                {
+                    filters.Add(new FilterModel() { 
+                            Operation = Op.Contains, 
+                            PropertyName = nameof(Departamento.Descripcion), 
+                            Value = viewModel.Descripcion });
+                }
+                viewModel.Departamentos = _repository.GetAll(filters);
+                return View(viewModel);
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+                return View(new DepartamentoFilterModel() { Descripcion = viewModel.Descripcion});
+            }
         }
 
         // GET: DepartamentoController/Details/5

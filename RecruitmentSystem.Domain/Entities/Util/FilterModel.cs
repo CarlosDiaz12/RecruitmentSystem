@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace RecruitmentSystem.Domain.Entities.Helper
+namespace RecruitmentSystem.Domain.Util
 {
     public class FilterModel
     {

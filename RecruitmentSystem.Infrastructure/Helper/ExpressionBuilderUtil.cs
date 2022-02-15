@@ -1,4 +1,4 @@
-﻿using RecruitmentSystem.Domain.Entities.Helper;
+﻿using RecruitmentSystem.Domain.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using static RecruitmentSystem.Domain.Entities.Helper.FilterModel;
+using static RecruitmentSystem.Domain.Util.FilterModel;
 
 namespace RecruitmentSystem.Infrastructure.Helper
 {

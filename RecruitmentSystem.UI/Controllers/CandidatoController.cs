@@ -3,12 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RecruitmentSystem.Domain.Abstract;
 using RecruitmentSystem.Domain.Entities;
-using RecruitmentSystem.Domain.Entities.Helper;
+using RecruitmentSystem.Domain.Entities.ViewModel;
+using RecruitmentSystem.Domain.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static RecruitmentSystem.Domain.Entities.Helper.FilterModel;
+using static RecruitmentSystem.Domain.Util.FilterModel;
 
 namespace RecruitmentSystem.UI.Controllers
 {

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RecruitmentSystem.Domain.Abstract;
 using RecruitmentSystem.Domain.Entities;
-using RecruitmentSystem.Domain.Entities.Helper;
+using RecruitmentSystem.Domain.Entities.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;

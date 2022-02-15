@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RecruitmentSystem.Domain.Abstract;
 using RecruitmentSystem.Domain.Entities;
-using RecruitmentSystem.Domain.Entities.Helper;
 using RecruitmentSystem.Infrastructure.Concrete.Base;
 using RecruitmentSystem.Infrastructure.Data;
 using System;

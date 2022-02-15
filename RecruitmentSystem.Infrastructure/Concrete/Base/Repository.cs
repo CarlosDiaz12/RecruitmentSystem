@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RecruitmentSystem.Domain.Abstract.Base;
-using RecruitmentSystem.Domain.Entities.Helper;
+using RecruitmentSystem.Domain.Util;
 using RecruitmentSystem.Infrastructure.Data;
 using RecruitmentSystem.Infrastructure.Helper;
 using System;
@@ -73,7 +73,7 @@ namespace RecruitmentSystem.Infrastructure.Concrete.Base
         {
             try
             {
-                if (filters == null) return _dbSet.AsQueryable();
+                if (filters == null || filters.Count == 0) return _dbSet.AsQueryable();
                 var deleg = ExpressionBuilderUtil.GetExpression<T>(filters).Compile();
                 var filteredCollection = _dbSet.Where(deleg).AsQueryable();
                 return filteredCollection;

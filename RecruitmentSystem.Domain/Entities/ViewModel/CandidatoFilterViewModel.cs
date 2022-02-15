@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RecruitmentSystem.Domain.Entities.Helper
+namespace RecruitmentSystem.Domain.Entities.ViewModel
 {
     public class CandidatoFilterViewModel
     {
