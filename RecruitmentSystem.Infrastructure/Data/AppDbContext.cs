@@ -99,6 +99,10 @@ namespace RecruitmentSystem.Infrastructure.Data
             modelBuilder.Entity<Candidato>()
                 .HasOne(x => x.DepartamentoPertenece);
 
+            // departamento / empleado
+            modelBuilder.Entity<Empleado>()
+                .HasOne(x => x.Departamento);
+
             // query filters
             //modelBuilder
             //    .Entity<Capacitacion>()

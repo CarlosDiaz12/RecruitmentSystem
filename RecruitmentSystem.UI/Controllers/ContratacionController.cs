@@ -16,14 +16,17 @@ namespace RecruitmentSystem.UI.Controllers
         private readonly IEmpleadoRepository _repository;
         private readonly IPuestoRepository _puestoRepository;
         private readonly ICandidatoRepository _candidatoRepository;
+        private readonly IDepartamentoRepository _departamentoRepository;
         public ContratacionController(
             IEmpleadoRepository repository, 
             IPuestoRepository puestoRepository,
-            ICandidatoRepository candidatoRepository)
+            ICandidatoRepository candidatoRepository,
+            IDepartamentoRepository departamentoRepository)
         {
             _repository = repository;
             _puestoRepository = puestoRepository;
             _candidatoRepository = candidatoRepository;
+            _departamentoRepository = departamentoRepository;
         }
         // GET: ContratacionController
         public ActionResult Index()
@@ -45,7 +48,7 @@ namespace RecruitmentSystem.UI.Controllers
                     Cedula = data.Cedula,
                     Nombre = data.Nombre,
                     FechaIngreso = DateTime.Now,
-                    //Departamento = data.Departamento,
+                    Departamento = data.DepartamentoPertenece,
                     Puesto = data.PuestoAspira,
                     SalarioMensual = data.SalarioAspira,
                     IdCandidato = id,
@@ -53,12 +56,14 @@ namespace RecruitmentSystem.UI.Controllers
                 };
 
                 ViewBag.PuestoAspiraId = new SelectList(_puestoRepository.GetAll().ToList(), "Id", "Nombre");
+                ViewBag.DepartamentoId = new SelectList(_departamentoRepository.GetAll().ToList(), "Id", "Descripcion");
                 return View(dataEmpleado);
             }
             catch (Exception e)
             {
                 ViewBag.ErrorMessage = e.Message;
                 ViewBag.PuestoAspiraId = new SelectList(_puestoRepository.GetAll().ToList(), "Id", "Nombre");
+                ViewBag.DepartamentoId = new SelectList(_departamentoRepository.GetAll().ToList(), "Id", "Descripcion");
                 return View();
             }
         }
