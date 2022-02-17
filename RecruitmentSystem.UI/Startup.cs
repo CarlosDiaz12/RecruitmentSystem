@@ -12,6 +12,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using RecruitmentSystem.UI.Infrastructure.Filters;
+
 namespace RecruitmentSystem.UI
 {
     public class Startup
@@ -41,6 +43,7 @@ namespace RecruitmentSystem.UI
                             .Build();
             services.AddControllersWithViews(options => {
                 options.Filters.Add(new AuthorizeFilter(policy));
+                options.Filters.Add(typeof(CustomAuthFilter));
             });
         }
 

@@ -12,5 +12,10 @@ namespace RecruitmentSystem.UI.Controllers
         {
             return PartialView(errorMessage);
         }
+
+        public IActionResult Unathorized()
+        {
+            return View();
+        }
     }
 }

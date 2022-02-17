@@ -11,11 +11,10 @@ namespace RecruitmentSystem.Domain.Entities
 {
     public class UsuarioIdentity: IdentityUser
     {
-        //[PersonalData]
         [StringLength(100)]
         public string Firstname { get; set; }
-        //[PersonalData]
         [StringLength(100)]
         public string LastName { get; set; }
+        public virtual ICollection<UsuarioModulo> Modulos { get; set; }
     }
 }

@@ -1,0 +1,11 @@
+﻿@{
+    ViewData["Title"] = "No Autorizado";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Lo sentimos</strong>: No esta autorizado para ingresar a este modulo
+            <br />
+            <a asp-controller="Home" asp-action="Index" asp-area="" class="btn btn-info mt-1">Ir a Inicio</a>
+        </div>
+</div>
