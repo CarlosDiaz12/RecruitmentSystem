@@ -22,6 +22,10 @@ namespace RecruitmentSystem.UI.Infrastructure
             services.AddScoped<INivelAcademicoRepository, NivelAcademicoRepository>();
             services.AddScoped<IEmpleadoRepository, EmpleadoRepository>();
             services.AddScoped<IDepartamentoRepository, DepartamentoRepository>();
+            // auth
+            services.AddScoped<IUsuarioIdentityRepository, UsuarioIdentityRepository>();
+            services.AddScoped<IModuloRepository, ModuloRepository>();
+            services.AddScoped<IUsuarioModuloRepository, UsuarioModuloRepository>();
             return services;
         }
     }

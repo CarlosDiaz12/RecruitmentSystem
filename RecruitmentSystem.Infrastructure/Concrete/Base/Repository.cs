@@ -13,9 +13,9 @@ namespace RecruitmentSystem.Infrastructure.Concrete.Base
 {
     public abstract class Repository<T>: IRepository<T> where T: class
     {
-        private readonly AppDbContext _context;
+        private readonly DbContext _context;
         private DbSet<T> _dbSet;
-        public Repository(AppDbContext dbContext)
+        public Repository(DbContext dbContext)
         {
             _context = dbContext;
             _dbSet = _context.Set<T>();
