@@ -18,6 +18,20 @@ namespace RecruitmentSystem.Infrastructure.Concrete
             _dbContext = dbContext;
         }
 
+        public bool ExisteEmpleadoCedula(string cedula)
+        {
+            try
+            {
+                cedula = cedula.Replace('-', ' ').Trim();
+                var cedulaExiste = _dbContext.Empleados.Any(x => x.Cedula == cedula);
+                return cedulaExiste;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
         public IQueryable<Empleado> GetEmpleadosByRange(DateTime start, DateTime end)
         {
             try
