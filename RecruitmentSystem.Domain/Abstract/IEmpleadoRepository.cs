@@ -11,5 +11,6 @@ namespace RecruitmentSystem.Domain.Abstract
     public interface IEmpleadoRepository: IRepository<Empleado>
     {
         public IQueryable<Empleado> GetEmpleadosByRange(DateTime start, DateTime end);
+        public bool ExisteEmpleadoCedula(string cedula);
     }
 }

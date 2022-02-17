@@ -11,5 +11,6 @@ namespace RecruitmentSystem.Domain.Abstract
     public interface ICandidatoRepository: IRepository<Candidato>
     {
         public Candidato GetByIdNoTracking(int Id);
+        public bool ExisteCandidatoCedula(string cedula);
     }
 }
