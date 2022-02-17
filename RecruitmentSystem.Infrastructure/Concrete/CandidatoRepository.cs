@@ -20,6 +20,21 @@ namespace RecruitmentSystem.Infrastructure.Concrete
             _context = dbContext;
         }
 
+        public bool ExisteEmpleadoCedula(string cedula)
+        {
+            try
+            {
+                cedula = cedula.Replace('-', ' ').Trim();
+                var cedulaExiste = _context.Empleados.Any(x => x.Cedula == cedula);
+                return cedulaExiste;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public Candidato GetByIdNoTracking(int Id)
         {
             try

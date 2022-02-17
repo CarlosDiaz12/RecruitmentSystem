@@ -108,6 +108,11 @@ namespace RecruitmentSystem.Infrastructure.Data
             modelBuilder.Entity<Empleado>()
                 .HasOne(x => x.Departamento);
 
+            // empleado / cedula
+            modelBuilder
+                .Entity<Empleado>()
+                .HasIndex(x => x.Cedula)
+                .IsUnique();
             // query filters
             //modelBuilder
             //    .Entity<Capacitacion>()

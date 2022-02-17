@@ -143,9 +143,15 @@ namespace RecruitmentSystem.UI.Controllers
         {
             try
             {
+                if(!string.IsNullOrWhiteSpace(_object.Cedula) 
+                    && _repository.ExisteEmpleadoCedula(_object.Cedula))
+                {
+                    ModelState.AddModelError("", "La cedula ingresada ya existe");
+                }
                 if (ModelState.IsValid)
                 {
                     // mapear datos
+                    _object.Cedula = _object.Cedula.Replace('-', ' ');
                     var newCandidato = new Candidato()
                     {
                         Nombre = _object.Nombre,
@@ -231,6 +237,11 @@ namespace RecruitmentSystem.UI.Controllers
         {
             try
             {
+                if (!string.IsNullOrWhiteSpace(_object.Cedula)
+                    && _repository.ExisteEmpleadoCedula(_object.Cedula))
+                {
+                    ModelState.AddModelError("", "La cedula ingresada ya existe");
+                }
                 if (ModelState.IsValid)
                 {
                     var data = _repository.GetByIdNoTracking(id);
@@ -248,6 +259,7 @@ namespace RecruitmentSystem.UI.Controllers
 
                     data.Idiomas = selectedIdiomas.ToList();
                     // mapear datos
+                    _object.Cedula = _object.Cedula.Replace('-', ' ');
                     var candidatoUpdated = new Candidato()
                     {
                         Id = _object.Id,
