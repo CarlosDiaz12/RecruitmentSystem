@@ -54,40 +54,27 @@ namespace RecruitmentSystem.UI.Controllers
             return _capacitacionRepository.GetAll().Select(x => x.Descripcion).Distinct();
         }
 
-
+        private void FillDropdownLists()
+        {
+            ViewBag.PuestoAspiraId = new SelectList(_puestoRepository.GetAll().ToList(), "Id", "Nombre");
+            ViewBag.Idiomas = new SelectList(_idiomaRepository.GetAll().ToList(), "Id", "Nombre");
+            ViewBag.NivelesCapacitacion = new SelectList(_nivelAcademicoRepository.GetAll().ToList(), "Id", "Descripcion");
+            ViewBag.DepartamentoId = new SelectList(_departamentoRepository.GetAll().ToList(), "Id", "Descripcion");
+        }
         // GET: CandidatoController
         public ActionResult Index(CandidatoFilterViewModel viewModel)
         {
             try
             {
-                var filters = new List<FilterModel>{
-                    new FilterModel() { Operation = Op.Contains, PropertyName = nameof(Candidato.Nombre), Value = viewModel.Nombre ?? "" }
-                };
-                var data = _repository.GetAll(filters);
+                var data = _repository.GetAll().ToList();
 
                 // filtros
                 if (viewModel != null)
                 {
-                    if (viewModel.Competencias != null)
-                    {
-                        var competenciasData = _competenciaRepository.GetAll()
-                            .Where(x => viewModel.Competencias.Contains(x.Descripcion))
-                            .Select(x => x.CandidatoId.ToString());
-                        data = data.Where(x => competenciasData.Contains(x.Id.ToString()));
-                    }
-
-                    if (viewModel.Puestos != null)
-                    {
-                        data = data.Where(x => viewModel.Puestos.Contains(x.PuestoAspira.Nombre));
-                    }
-
-                    if (viewModel.Capacitaciones != null)
-                    {
-                        var capacitacionesData = _capacitacionRepository.GetAll()
-                            .Where(x => viewModel.Capacitaciones.Contains(x.Descripcion))
-                            .Select(x => x.CandidatoId.ToString());
-                        data = data.Where(x => capacitacionesData.Contains(x.Id.ToString()));
-                    }
+                    // filtrar 
+                    data = _repository
+                        .Filter(viewModel.Nombre, viewModel.Competencias, viewModel.Puestos, viewModel.Capacitaciones)
+                        .ToList();
                 }
 
                 ViewBag.Puestos = new SelectList(GetPuestosDdl());
@@ -96,7 +83,7 @@ namespace RecruitmentSystem.UI.Controllers
                 return View(
                     new CandidatoFilterViewModel()
                     {
-                        Candidatos = data.ToList(),
+                        Candidatos = data,
                         Competencias = viewModel.Competencias,
                         Puestos = viewModel.Puestos,
                         Capacitaciones = viewModel.Capacitaciones,
@@ -129,10 +116,7 @@ namespace RecruitmentSystem.UI.Controllers
         // GET: CandidatoController/Create
         public ActionResult Create()
         {
-            ViewBag.PuestoAspiraId = new SelectList(_puestoRepository.GetAll().ToList(), "Id", "Nombre");
-            ViewBag.Idiomas = new SelectList(_idiomaRepository.GetAll().ToList(), "Id", "Nombre");
-            ViewBag.NivelesCapacitacion = new SelectList(_nivelAcademicoRepository.GetAll().ToList(), "Id", "Descripcion");
-            ViewBag.DepartamentoId = new SelectList(_departamentoRepository.GetAll().ToList(), "Id", "Descripcion");
+
             return View();
         }
 
@@ -171,20 +155,14 @@ namespace RecruitmentSystem.UI.Controllers
                 }
                 else
                 {
-                    ViewBag.PuestoAspiraId = new SelectList(_puestoRepository.GetAll().ToList(), "Id", "Nombre");
-                    ViewBag.Idiomas = new SelectList(_idiomaRepository.GetAll().ToList(), "Id", "Nombre");
-                    ViewBag.NivelesCapacitacion = new SelectList(_nivelAcademicoRepository.GetAll().ToList(), "Id", "Descripcion");
-                    ViewBag.DepartamentoId = new SelectList(_departamentoRepository.GetAll().ToList(), "Id", "Descripcion");
+                    FillDropdownLists();
                     return View();
                 }
             }
             catch (Exception e)
             {
                 ViewBag.ErrorMessage = e.Message;
-                ViewBag.PuestoAspiraId = new SelectList(_puestoRepository.GetAll().ToList(), "Id", "Nombre");
-                ViewBag.Idiomas = new SelectList(_idiomaRepository.GetAll().ToList(), "Id", "Nombre");
-                ViewBag.NivelesCapacitacion = new SelectList(_nivelAcademicoRepository.GetAll().ToList(), "Id", "Descripcion");
-                ViewBag.DepartamentoId = new SelectList(_departamentoRepository.GetAll().ToList(), "Id", "Descripcion");
+                FillDropdownLists();
                 return View();
             }
         }
@@ -213,19 +191,13 @@ namespace RecruitmentSystem.UI.Controllers
                     Capacitaciones = _object.PrincipalesCapacitaciones.ToList() 
                 };
 
-                ViewBag.PuestoAspiraId = new SelectList(_puestoRepository.GetAll().ToList(), "Id", "Nombre");
-                ViewBag.Idiomas = new SelectList(_idiomaRepository.GetAll().ToList(), "Id", "Nombre");
-                ViewBag.NivelesCapacitacion = new SelectList(_nivelAcademicoRepository.GetAll().ToList(), "Id", "Descripcion");
-                ViewBag.DepartamentoId = new SelectList(_departamentoRepository.GetAll().ToList(), "Id", "Descripcion");
+                FillDropdownLists();
                 return View(viewModelData);
             }
             catch (Exception e)
             {
                 ViewBag.ErrorMessage = e.Message;
-                ViewBag.PuestoAspiraId = new SelectList(_puestoRepository.GetAll().ToList(), "Id", "Nombre");
-                ViewBag.Idiomas = new SelectList(_idiomaRepository.GetAll().ToList(), "Id", "Nombre");
-                ViewBag.NivelesCapacitacion = new SelectList(_nivelAcademicoRepository.GetAll().ToList(), "Id", "Descripcion");
-                ViewBag.DepartamentoId = new SelectList(_departamentoRepository.GetAll().ToList(), "Id", "Descripcion");
+                FillDropdownLists();
                 return View();
             }
         }
@@ -247,7 +219,7 @@ namespace RecruitmentSystem.UI.Controllers
                     var data = _repository.GetByIdNoTracking(id);
                     if (data == null)
                         throw new Exception("Registro no encontrado");
-
+                    // mapear idiomas 
                     var selectedIdiomas = _idiomaRepository
                         .GetAll()
                         .Where(x => _object.Idiomas.Contains(x.Id.ToString()))
@@ -278,10 +250,7 @@ namespace RecruitmentSystem.UI.Controllers
                 }
                 else
                 {
-                    ViewBag.PuestoAspiraId = new SelectList(_puestoRepository.GetAll().ToList(), "Id", "Nombre");
-                    ViewBag.Idiomas = new SelectList(_idiomaRepository.GetAll().ToList(), "Id", "Nombre");
-                    ViewBag.NivelesCapacitacion = new SelectList(_nivelAcademicoRepository.GetAll().ToList(), "Id", "Descripcion");
-                    ViewBag.DepartamentoId = new SelectList(_departamentoRepository.GetAll().ToList(), "Id", "Descripcion");
+                    FillDropdownLists();
                     return View(_object);
                 }
                 return RedirectToAction(nameof(Index));
@@ -289,10 +258,7 @@ namespace RecruitmentSystem.UI.Controllers
             catch (Exception e)
             {
                 ViewBag.ErrorMessage = e.Message;
-                ViewBag.PuestoAspiraId = new SelectList(_puestoRepository.GetAll().ToList(), "Id", "Nombre");
-                ViewBag.Idiomas = new SelectList(_idiomaRepository.GetAll().ToList(), "Id", "Nombre");
-                ViewBag.NivelesCapacitacion = new SelectList(_nivelAcademicoRepository.GetAll().ToList(), "Id", "Descripcion");
-                ViewBag.DepartamentoId = new SelectList(_departamentoRepository.GetAll().ToList(), "Id", "Descripcion");
+                FillDropdownLists();
                 return View(_object);
             }
         }

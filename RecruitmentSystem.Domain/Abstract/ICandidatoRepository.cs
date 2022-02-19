@@ -12,5 +12,6 @@ namespace RecruitmentSystem.Domain.Abstract
     {
         public Candidato GetByIdNoTracking(int Id);
         public bool ExisteCandidatoCedula(string cedula);
+        public IEnumerable<Candidato> Filter(string nombre, string[] competenciasIds, string[] puestos, string[] capacitacionesIds);
     }
 }
