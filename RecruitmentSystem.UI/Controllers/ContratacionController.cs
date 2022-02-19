@@ -28,6 +28,12 @@ namespace RecruitmentSystem.UI.Controllers
             _candidatoRepository = candidatoRepository;
             _departamentoRepository = departamentoRepository;
         }
+
+        private void FillDropdownLists()
+        {
+            ViewBag.PuestoAspiraId = new SelectList(_puestoRepository.GetAll().ToList(), "Id", "Nombre");
+            ViewBag.DepartamentoId = new SelectList(_departamentoRepository.GetAll().ToList(), "Id", "Descripcion");
+        }
         // GET: ContratacionController
         public ActionResult Index()
         {
@@ -55,15 +61,13 @@ namespace RecruitmentSystem.UI.Controllers
                     Estado = true
                 };
 
-                ViewBag.PuestoAspiraId = new SelectList(_puestoRepository.GetAll().ToList(), "Id", "Nombre");
-                ViewBag.DepartamentoId = new SelectList(_departamentoRepository.GetAll().ToList(), "Id", "Descripcion");
+                FillDropdownLists();
                 return View(dataEmpleado);
             }
             catch (Exception e)
             {
                 ViewBag.ErrorMessage = e.Message;
-                ViewBag.PuestoAspiraId = new SelectList(_puestoRepository.GetAll().ToList(), "Id", "Nombre");
-                ViewBag.DepartamentoId = new SelectList(_departamentoRepository.GetAll().ToList(), "Id", "Descripcion");
+                FillDropdownLists();
                 return View();
             }
         }

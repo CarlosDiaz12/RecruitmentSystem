@@ -23,6 +23,10 @@ namespace RecruitmentSystem.UI.Controllers
         {
             return View(_repository.GetAll().ToList());
         }
+        private void FillDropdownLists()
+        {
+            ViewBag.NivelRiesgo = new SelectList(Enum.GetValues(typeof(NivelRiesgo)));
+        }
 
         // GET: PuestoController/Details/5
         public ActionResult Details(int id)
@@ -33,7 +37,7 @@ namespace RecruitmentSystem.UI.Controllers
         // GET: PuestoController/Create
         public ActionResult Create()
         {
-            ViewBag.NivelRiesgo = new SelectList(Enum.GetValues(typeof(NivelRiesgo)));
+            FillDropdownLists();
             return View(new Puesto() { Estado = true});
         }
 
@@ -51,14 +55,14 @@ namespace RecruitmentSystem.UI.Controllers
                 }
                 else
                 {
-                    ViewBag.NivelRiesgo = new SelectList(Enum.GetValues(typeof(NivelRiesgo)));
+                    FillDropdownLists();
                     return View();
                 }
             }
             catch (Exception e)
             {
                 ViewBag.ErrorMessage = e.Message;
-                ViewBag.NivelRiesgo = new SelectList(Enum.GetValues(typeof(NivelRiesgo)));
+                FillDropdownLists();
                 return View();
             }
         }
@@ -71,13 +75,13 @@ namespace RecruitmentSystem.UI.Controllers
                 var data = _repository.GetById(id);
                 if (data == null)
                     throw new Exception("Registro no encontrado");
-                ViewBag.NivelRiesgo = new SelectList(Enum.GetValues(typeof(NivelRiesgo)));
+                FillDropdownLists();
                 return View(data);
             }
             catch (Exception e)
             {
                 ViewBag.ErrorMessage = e.Message;
-                ViewBag.NivelRiesgo = new SelectList(Enum.GetValues(typeof(NivelRiesgo)));
+                FillDropdownLists();
                 return View();
             }
         }
@@ -97,7 +101,7 @@ namespace RecruitmentSystem.UI.Controllers
                 }
                 else
                 {
-                    ViewBag.NivelRiesgo = new SelectList(Enum.GetValues(typeof(NivelRiesgo)));
+                    FillDropdownLists();
                     return View();
                 }
                 return RedirectToAction(nameof(Index));
@@ -105,7 +109,7 @@ namespace RecruitmentSystem.UI.Controllers
             catch (Exception e)
             {
                 ViewBag.ErrorMessage = e.Message;
-                ViewBag.NivelRiesgo = new SelectList(Enum.GetValues(typeof(NivelRiesgo)));
+                FillDropdownLists();
                 return View();
             }
         }

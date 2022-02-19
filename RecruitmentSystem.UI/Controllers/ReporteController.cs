@@ -84,7 +84,7 @@ namespace RecruitmentSystem.UI.Controllers
                         empleado.Cedula,
                         empleado.Nombre,
                         empleado.FechaIngreso.ToShortDateString(),
-                        empleado.Departamento,
+                        empleado.Departamento.Descripcion,
                         empleado.Puesto.Nombre,
                         empleado.SalarioMensual,
                         empleado.Estado ? "Activo" : "Inactivo"
