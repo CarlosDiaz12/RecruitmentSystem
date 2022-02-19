@@ -5,8 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h4>Lista Empleados</h4>
 <div class="row">
+    <h4>Lista Empleados</h4>
     <form asp-action="ListaEmpleados" method="get" class="w-100">
         <div class="row">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -93,7 +93,7 @@
                     @Html.DisplayFor(modelItem => item.FechaIngreso)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Departamento)
+                    @Html.DisplayFor(modelItem => item.Departamento.Descripcion)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Puesto.Nombre)
