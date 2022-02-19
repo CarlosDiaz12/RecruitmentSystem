@@ -25,6 +25,12 @@ namespace RecruitmentSystem.UI.Controllers
             _nivelAcademicoRepository = nivelAcademicoRepository;
             _candidatoRepository = candidatoRepository;
         }
+
+        private void FillDropDownLists()
+        {
+            ViewBag.NivelId = new SelectList(_nivelAcademicoRepository.GetAll().ToList(), "Id", "Descripcion");
+            ViewBag.CandidatoId = new SelectList(_candidatoRepository.GetAll().ToList(), "Id", "Nombre");
+        }
         // GET: CapacitacionController
         public ActionResult Index()
         {
@@ -40,8 +46,7 @@ namespace RecruitmentSystem.UI.Controllers
         // GET: CapacitacionController/Create
         public ActionResult Create()
         {
-            ViewBag.NivelId = new SelectList(_nivelAcademicoRepository.GetAll().ToList(), "Id", "Descripcion");
-            ViewBag.CandidatoId = new SelectList(_candidatoRepository.GetAll().ToList(), "Id", "Nombre");
+            FillDropDownLists();
             return View();
         }
 
@@ -59,16 +64,14 @@ namespace RecruitmentSystem.UI.Controllers
                 }
                 else
                 {
-                    ViewBag.NivelId = new SelectList(_nivelAcademicoRepository.GetAll().ToList(), "Id", "Descripcion");
-                    ViewBag.CandidatoId = new SelectList(_candidatoRepository.GetAll().ToList(), "Id", "Nombre");
+                    FillDropDownLists();
                     return View();
                 }
             }
             catch (Exception e)
             {
                 ViewBag.ErrorMessage = e.Message;
-                ViewBag.NivelId = new SelectList(_nivelAcademicoRepository.GetAll().ToList(), "Id", "Descripcion");
-                ViewBag.CandidatoId = new SelectList(_candidatoRepository.GetAll().ToList(), "Id", "Nombre");
+                FillDropDownLists();
                 return View();
             }
         }
@@ -82,15 +85,13 @@ namespace RecruitmentSystem.UI.Controllers
                 if (data == null)
                     throw new Exception("Registro no encontrado");
 
-                ViewBag.NivelId = new SelectList(_nivelAcademicoRepository.GetAll().ToList(), "Id", "Descripcion");
-                ViewBag.CandidatoId = new SelectList(_candidatoRepository.GetAll().ToList(), "Id", "Nombre");
+                FillDropDownLists();
                 return View(data);
             }
             catch (Exception e)
             {
                 ViewBag.ErrorMessage = e.Message;
-                ViewBag.NivelId = new SelectList(_nivelAcademicoRepository.GetAll().ToList(), "Id", "Descripcion");
-                ViewBag.CandidatoId = new SelectList(_candidatoRepository.GetAll().ToList(), "Id", "Nombre");
+                FillDropDownLists();
                 return View();
             }
         }
@@ -110,8 +111,7 @@ namespace RecruitmentSystem.UI.Controllers
                 }
                 else
                 {
-                    ViewBag.NivelId = new SelectList(_nivelAcademicoRepository.GetAll().ToList(), "Id", "Descripcion");
-                    ViewBag.CandidatoId = new SelectList(_candidatoRepository.GetAll().ToList(), "Id", "Nombre");
+                    FillDropDownLists();
                     return View();
                 }
                 return RedirectToAction(nameof(Index));
@@ -119,8 +119,7 @@ namespace RecruitmentSystem.UI.Controllers
             catch (Exception e)
             {
                 ViewBag.ErrorMessage = e.Message;
-                ViewBag.NivelId = new SelectList(_nivelAcademicoRepository.GetAll().ToList(), "Id", "Descripcion");
-                ViewBag.CandidatoId = new SelectList(_candidatoRepository.GetAll().ToList(), "Id", "Nombre");
+                FillDropDownLists();
                 return View();
             }
         }

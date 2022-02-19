@@ -19,6 +19,11 @@ namespace RecruitmentSystem.UI.Controllers
             _repository = repository;
             _candidatoRepository = candidatoRepository;
         }
+
+        private void FillDropdownLists()
+        {
+            ViewBag.CandidatoId = new SelectList(_candidatoRepository.GetAll().ToList(), "Id", "Nombre");
+        }
         // GET: Competencia
         public ActionResult Index()
         {
@@ -34,7 +39,7 @@ namespace RecruitmentSystem.UI.Controllers
         // GET: Competencia/Create
         public ActionResult Create()
         {
-            ViewBag.CandidatoId = new SelectList(_candidatoRepository.GetAll().ToList(), "Id", "Nombre");
+            FillDropdownLists();
             return View(new Competencia() { Estado = true});
         }
 
@@ -51,14 +56,14 @@ namespace RecruitmentSystem.UI.Controllers
                     return RedirectToAction(nameof(Index));
                 } else
                 {
-                    ViewBag.CandidatoId = new SelectList(_candidatoRepository.GetAll().ToList(), "Id", "Nombre");
+                    FillDropdownLists();
                     return View();
                 }
             }
             catch (Exception e)
             {
                 ViewBag.ErrorMessage = e.Message;
-                ViewBag.CandidatoId = new SelectList(_candidatoRepository.GetAll().ToList(), "Id", "Nombre");
+                FillDropdownLists();
                 return View();
             }
         }
@@ -71,13 +76,13 @@ namespace RecruitmentSystem.UI.Controllers
                 var data = _repository.GetById(id);
                 if (data == null)
                     throw new Exception("Registro no encontrado");
-                ViewBag.CandidatoId = new SelectList(_candidatoRepository.GetAll().ToList(), "Id", "Nombre");
+                FillDropdownLists();
                 return View(data);
             }
             catch (Exception e)
             {
                 ViewBag.ErrorMessage = e.Message;
-                ViewBag.CandidatoId = new SelectList(_candidatoRepository.GetAll().ToList(), "Id", "Nombre");
+                FillDropdownLists();
                 return View();
             }
         }
@@ -96,7 +101,7 @@ namespace RecruitmentSystem.UI.Controllers
                     _repository.Update(_object);
                 } else
                 {
-                    ViewBag.CandidatoId = new SelectList(_candidatoRepository.GetAll().ToList(), "Id", "Nombre");
+                    FillDropdownLists();
                     return View();
                 }
                 return RedirectToAction(nameof(Index));
@@ -104,7 +109,7 @@ namespace RecruitmentSystem.UI.Controllers
             catch (Exception e)
             {
                 ViewBag.ErrorMessage = e.Message;
-                ViewBag.CandidatoId = new SelectList(_candidatoRepository.GetAll().ToList(), "Id", "Nombre");
+                FillDropdownLists();
                 return View();
             }
         }
