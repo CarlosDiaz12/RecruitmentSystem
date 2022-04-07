@@ -30,7 +30,7 @@ namespace RecruitmentSystem.Infrastructure.Concrete
                     new FilterModel() { Operation = Op.Contains, PropertyName = nameof(Candidato.Nombre), Value = nombre ?? "" }
                 };
 
-                var data = GetAll(filters);
+                IEnumerable<Candidato> data = GetAll(filters).ToList();
                 if (competenciasIds != null && competenciasIds.Length > 0)
                 {
                     var competenciasData = _context.Competencias.AsQueryable()
@@ -48,9 +48,10 @@ namespace RecruitmentSystem.Infrastructure.Concrete
                 // filtrar por capacitaciones
                 if (capacitacionesIds != null && capacitacionesIds.Length > 0)
                 {
-                    var capacitacionesData = _context.Capacitaciones.AsQueryable()
+                    var capacitacionesData = _context.Capacitaciones
                         .Where(x => capacitacionesIds.Contains(x.Descripcion))
-                        .Select(x => x.CandidatoId.ToString());
+                        .Select(x => x.CandidatoId.ToString())
+                        .ToList();
                     data = data.Where(x => capacitacionesData.Contains(x.Id.ToString()));
                 }
                 return data.ToList();

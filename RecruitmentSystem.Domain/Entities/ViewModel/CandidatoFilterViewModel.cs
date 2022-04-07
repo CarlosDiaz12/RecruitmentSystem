@@ -11,7 +11,7 @@ namespace RecruitmentSystem.Domain.Entities.ViewModel
         public string[] Competencias { get; set; }
         public string[] Puestos { get; set; }
         public string[] Capacitaciones { get; set; }
-        public List<Candidato> Candidatos { get; set; }
+        public List<Candidato> Candidatos { get; set; } = new List<Candidato>();
         public string Nombre { get; set; }
     }
 }
